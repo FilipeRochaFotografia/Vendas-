@@ -109,7 +109,7 @@ const Hero = () => {
                   flex items-center justify-center gap-2
                 "
               >
-                Quero ser encontrado no Google
+                Quero ser encontrado 
                 <ChevronRight className="w-5 h-5" />
               </button>
               
@@ -130,8 +130,8 @@ const Hero = () => {
               </a>
             </motion.div>
 
-            {/* Social Proof - REMOVIDO NO MOBILE (hidden lg:flex) */}
-            <motion.div variants={fadeInUp} className="hidden lg:flex flex-row items-center justify-center lg:justify-start gap-5 pt-8 border-t border-[#AED3F2] w-full">
+            {/* Social Proof - Restaurado no Mobile (Sem borda no mobile) */}
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-8 lg:border-t border-[#AED3F2] w-full">
               
               {/* Avatar Pile - LOGOS VARIADOS (CR, DV, CL, MS) */}
               <div className="flex items-center -space-x-3">
@@ -152,7 +152,7 @@ const Hero = () => {
               </div>
 
               {/* Rating Block */}
-              <div className="flex flex-col items-start justify-center h-full">
+              <div className="flex flex-col items-center sm:items-start justify-center h-full">
                  <div className="flex items-center gap-1.5">
                     <Star className="w-5 h-5 text-yellow-400 fill-current drop-shadow-sm" />
                     <span className="font-extrabold text-slate-800 text-lg">4.9</span>

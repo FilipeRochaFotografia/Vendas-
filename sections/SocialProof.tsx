@@ -45,8 +45,9 @@ const SocialProof = () => {
           viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <motion.h2 variants={fadeInUp} className="text-3xl md:text-5xl font-extrabold text-[#2E78A6] mb-6">
-            Quanto custa <span className="text-[#6CC5D9] line-through decoration-[#6CC5D9]/50 decoration-4">perder pacientes</span>?
+          <motion.h2 variants={fadeInUp} className="text-3xl md:text-5xl font-extrabold text-[#2E78A6] mb-6 leading-tight">
+            Quanto custa <br className="block md:hidden" />
+            <span className="text-[#6CC5D9] line-through decoration-[#6CC5D9]/50 decoration-4">perder pacientes</span>?
           </motion.h2>
           <motion.p variants={fadeInUp} className="text-slate-600 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
             Tenha a estrutura de uma grande rede de clínicas por um valor menor que uma única restauração por mês.
