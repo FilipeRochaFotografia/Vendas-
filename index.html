@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClinicPage – Marketing para Clínicas</title>
+    <!-- Suppress Tailwind CDN warning -->
+    <script>
+      (function() {
+        const originalWarn = console.warn;
+        console.warn = function(...args) {
+          if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) {
+            return;
+          }
+          originalWarn.apply(console, args);
+        };
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              teal: {
+                50: '#f0fdfa',
+                100: '#ccfbf1',
+                200: '#A8E6E1', // Light Aqua
+                300: '#5eead4',
+                400: '#2dd4bf',
+                500: '#47C3B3', // Soft Emerald Teal (Primary)
+                600: '#0d9488',
+                700: '#2B7C78', // Petrol Green (Secondary)
+                800: '#115e59',
+                900: '#134e4a',
+              },
+              clinical: {
+                white: '#ffffff',
+                gray: '#f8fafc',
+              }
+            },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            },
+            backgroundImage: {
+              'soft-gradient': 'radial-gradient(circle at 50% 0%, rgba(168, 230, 225, 0.4) 0%, rgba(255, 255, 255, 0) 70%)',
+              'card-gradient': 'linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%)',
+            },
+            boxShadow: {
+              'glass': '0 8px 32px 0 rgba(43, 124, 120, 0.1)',
+              'glow': '0 0 20px rgba(71, 195, 179, 0.3)',
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+        overflow-x: hidden;
+      }
+      /* Smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.24",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+  </body>
+</html>
