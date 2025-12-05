@@ -23,11 +23,11 @@ const Footer = () => {
               {/* Logo ClinicPage */}
               <img 
                 src="https://i.ibb.co/sdKGmZR3/Odonto-Page-Logo.png" 
-                alt="ClinicPage Logo" 
+                alt="ClinicPages Logo" 
                 className="h-7 w-auto object-contain mix-blend-multiply opacity-90"
               />
               <div className="text-2xl font-extrabold text-[#2E78A6] tracking-tight">
-                Clinic<span className="text-[#6CC5D9]">Page</span>
+                Clinic<span className="text-[#6CC5D9]">Pages</span>
               </div>
             </div>
 
@@ -82,7 +82,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <span className="block font-bold text-slate-800">Email</span>
-                  <a href="mailto:contato@clinicpage.com" className="hover:text-[#6CC5D9] transition-colors">contato@clinicpage.com</a>
+                  <a href="mailto:contato@clinicpages.com" className="hover:text-[#6CC5D9] transition-colors">contato@clinicpages.com</a>
                 </div>
               </li>
             </ul>
@@ -110,7 +110,7 @@ const Footer = () => {
 
         {/* Copyright Bar */}
         <div className="border-t border-[#AED3F2] pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-          <p>&copy; {new Date().getFullYear()} ClinicPage Tecnologia. Todos os direitos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} ClinicPages Tecnologia. Todos os direitos reservados.</p>
           
           <button 
             onClick={scrollToTop} 

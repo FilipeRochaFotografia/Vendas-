@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Hero from './sections/Hero';
 import Features from './sections/Features'; 
+import Charts from './sections/Charts';
 import Team from './sections/Team'; 
 import SocialProof from './sections/SocialProof'; 
 import FAQ from './sections/FAQ';
 import Footer from './sections/Footer';
 
 function App() {
-  const handleScroll = (e: React.MouseEvent<HTMLElement>, id: string) => {
+  // Estado para detectar o scroll
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Efeito para monitorar o scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      // Se rolar mais de 50px, ativa o modo "scrolled"
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScrollTo = (e: React.MouseEvent<HTMLElement>, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
@@ -25,51 +44,104 @@ function App() {
   return (
     <main className="w-full min-h-screen bg-white text-slate-900 font-sans selection:bg-[#AED3F2] selection:text-[#2E78A6]">
       
-      {/* Navigation Header */}
-      {/* 
-          ALTERAÇÃO: 
-          - Removido: 'border-b' e 'border-white/50'
-          - Mantido: 'shadow-sm' (cria uma sombra muito leve para dar profundidade sem ser uma linha), 
-            se quiser totalmente liso, pode remover 'shadow-sm' também.
-      */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#E4EAF2]/80 via-[#F2F7FC]/80 to-white/80 backdrop-blur-md transition-all duration-300 shadow-sm">
-        <div className="container mx-auto px-4 md:px-6 lg:px-12 h-20 flex items-center justify-between">
+      {/* Navigation Header com Comportamento Dinâmico */}
+      <nav 
+        className={`
+          fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out border-b border-transparent
+          ${isScrolled 
+            /* 
+               ALTERAÇÃO AQUI: 
+               - Mudado de /90 para /70 (mais transparência)
+               - Mudado de backdrop-blur-md para backdrop-blur-xl (mais desfoque para ler o texto)
+               - Adicionado border-white/20 para dar acabamento de vidro
+            */
+            ? 'bg-gradient-to-r from-[#E4EAF2]/70 via-[#F2F7FC]/70 to-white/70 backdrop-blur-xl shadow-sm h-20 border-white/40' 
+            : 'bg-transparent h-24' // Mais alto e transparente no topo
+          }
+        `}
+      >
+        <div className="container mx-auto px-4 md:px-6 lg:px-12 h-full flex items-center justify-between">
           
+          {/* Logo Area */}
           <div 
             className="flex items-center gap-1.5 md:gap-2.5 cursor-pointer group"
-            onClick={(e) => handleScroll(e, 'home')}
+            onClick={(e) => handleScrollTo(e, 'home')}
           >
             <img 
               src="https://i.ibb.co/sdKGmZR3/Odonto-Page-Logo.png" 
               alt="Logo Agência" 
-              className="h-6 md:h-8 w-auto object-contain mix-blend-multiply opacity-90 group-hover:scale-105 transition-transform duration-300"
+              className={`
+                h-6 md:h-8 w-auto object-contain transition-all duration-300 group-hover:scale-105
+                ${isScrolled 
+                  ? 'mix-blend-multiply opacity-90' // Logo original ao rolar
+                  : 'brightness-0 invert opacity-100' // Logo branca no topo
+                }
+              `}
             />
-            <div className="text-lg md:text-2xl font-extrabold text-[#2E78A6] tracking-tight">
-              Clinic<span className="text-[#6CC5D9]">Page</span>
+            <div className={`
+              text-lg md:text-2xl font-extrabold tracking-tight transition-colors duration-300
+              ${isScrolled ? 'text-[#2E78A6]' : 'text-white'}
+            `}>
+              Clinic<span className={`${isScrolled ? 'text-[#6CC5D9]' : 'text-[#6CC5D9]'}`}>Pages</span>
             </div>
           </div>
           
-          <div className="hidden md:flex items-center gap-8 font-medium text-[#2E78A6]/80 text-sm lg:text-base">
-            <a href="#home" onClick={(e) => handleScroll(e, 'home')} className="hover:text-[#2E78A6] hover:font-bold transition-all cursor-pointer">Início</a>
-            <a href="#features" onClick={(e) => handleScroll(e, 'features')} className="hover:text-[#2E78A6] hover:font-bold transition-all cursor-pointer">Estratégia</a>
-            <a href="#bonus" onClick={(e) => handleScroll(e, 'bonus')} className="hover:text-[#2E78A6] hover:font-bold transition-all cursor-pointer">Bônus IA</a>
-            <a href="#pricing" onClick={(e) => handleScroll(e, 'pricing')} className="hover:text-[#2E78A6] hover:font-bold transition-all cursor-pointer">Investimento</a>
-            <a href="#faq" onClick={(e) => handleScroll(e, 'faq')} className="hover:text-[#2E78A6] hover:font-bold transition-all cursor-pointer">Dúvidas</a>
+          {/* Links de Navegação */}
+          <div className={`
+            hidden md:flex items-center gap-8 font-medium text-sm lg:text-base transition-colors duration-300
+            ${isScrolled ? 'text-[#2E78A6]/80' : 'text-white/90'}
+          `}>
+            {['Início', 'Estratégia', 'Bônus IA', 'Investimento', 'Dúvidas'].map((item, index) => {
+               const idMap = ['home', 'features', 'bonus', 'pricing', 'faq'];
+               return (
+                 <a 
+                   key={index}
+                   href={`#${idMap[index]}`} 
+                   onClick={(e) => handleScrollTo(e, idMap[index])} 
+                   className={`
+                     transition-all cursor-pointer hover:font-bold
+                     ${isScrolled ? 'hover:text-[#2E78A6]' : 'hover:text-white'}
+                   `}
+                 >
+                   {item}
+                 </a>
+               )
+            })}
           </div>
 
+          {/* Botão CTA */}
           <a 
             href="https://wa.me/seunumerodewhatsapp" 
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#2E78A6] text-white px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base rounded-lg font-bold hover:bg-[#205A80] transition-all shadow-lg shadow-[#2E78A6]/20 transform hover:-translate-y-0.5 border border-[#2E78A6]"
+            className={`
+              px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base rounded-lg font-bold transition-all shadow-lg transform hover:-translate-y-0.5 border
+              ${isScrolled 
+                ? 'bg-[#2E78A6] text-white hover:bg-[#205A80] shadow-[#2E78A6]/20 border-[#2E78A6]' 
+                : 'bg-white text-[#2E78A6] hover:bg-blue-50 shadow-black/10 border-transparent' 
+              }
+            `}
           >
             Começar Agora
           </a>
         </div>
       </nav>
 
-      <Hero />
-      <Features />
+      {/* WRAPPER INFINITO: Hero + Features */}
+      <div className="relative w-full bg-[#0F2942]">
+        
+        {/* Textura Global contínua */}
+        <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay pointer-events-none z-0"></div>
+        
+        {/* Gradiente Global */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(108,197,217,0.15)_0%,_transparent_70%)] pointer-events-none z-0" />
+
+        <Hero />
+        <Features />
+      
+      </div>
+
+      <Charts />
       <Team />
       <SocialProof />
       <FAQ />

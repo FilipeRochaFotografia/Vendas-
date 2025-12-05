@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Star, Shield, Zap, Smartphone, Sparkles, Award, Server } from 'lucide-react';
+import { Check, Star, Shield, Zap, Smartphone, Sparkles, Server, CodeXml } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
 const SocialProof = () => {
@@ -106,49 +106,15 @@ const SocialProof = () => {
           </div>
         </motion.div>
 
-        {/* Grid de Preços/Valor */}
+        {/* Grid de Cards - Alterado para 2 Colunas */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto" 
+          className="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto" 
         >
-          {/* Card 1: Infraestrutura (Vidro Claro) */}
-          <motion.div 
-            variants={fadeInUp}
-            className="
-              bg-white/40 backdrop-blur-xl border border-white/60 
-              p-8 rounded-[2rem] shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] 
-              relative flex flex-col items-center text-center 
-              hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.1)] transition-all duration-300
-            "
-          >
-            <div className="bg-white/50 w-14 h-14 rounded-full flex items-center justify-center mb-4 text-[#2E78A6] shadow-inner border border-white/50">
-              <Zap className="w-7 h-7" />
-            </div>
-            <h3 className="text-[#2E78A6] font-bold text-xl mb-6">Infraestrutura</h3>
-            
-            <div className="w-full max-w-[240px]"> 
-              <ul className="space-y-3 text-left">
-                {/* Manutenção aqui */}
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
-                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Manutenção Inclusa
-                </li>
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
-                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Certificado SSL
-                </li>
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
-                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Carregamento Rápido
-                </li>
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
-                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Domínio Configurado
-                </li>
-              </ul>
-            </div>
-          </motion.div>
-
-          {/* Card 2: A Oferta Principal (Dinâmica: Azul ou Dourado) */}
+          {/* Card 1: A Oferta Principal (Primeiro) */}
           <motion.div 
             variants={fadeInUp}
             whileHover={{ 
@@ -160,7 +126,7 @@ const SocialProof = () => {
               ${theme.cardBg}
               text-white rounded-[2.5rem] shadow-2xl
               relative z-20 flex flex-col items-center text-center p-0 overflow-visible my-4 md:my-0
-              border-4 transition-all duration-500
+              border-4 transition-all duration-500 order-1
             `}
           >
             <motion.div 
@@ -192,7 +158,7 @@ const SocialProof = () => {
                         <span className="text-7xl font-extrabold tracking-tighter drop-shadow-md">97</span>
                         <span className="text-xl font-medium opacity-80">/mês</span>
                       </div>
-                      <p className="text-sm text-blue-100 mt-2 font-medium">+ Taxa única de setup: R$ 600</p>
+                      <p className="text-sm text-blue-100 mt-2 font-medium">+ Taxa única de setup: R$ 450</p>
                     </motion.div>
                   ) : (
                     <motion.div
@@ -219,15 +185,35 @@ const SocialProof = () => {
               </div>
 
               <div className="space-y-3 w-full mb-8">
+                
+                {/* Item Vitalício Exclusivo: Dono do Código */}
+                <AnimatePresence>
+                  {isLifetime && (
+                    <motion.div
+                      key="code-ownership"
+                      initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                      animate={{ opacity: 1, height: 'auto', marginBottom: 12 }}
+                      exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                      className="bg-white/20 border border-white/30 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm overflow-hidden"
+                    >
+                      <CodeXml className="w-5 h-5 shrink-0 text-white" />
+                      <span className="text-sm font-extrabold text-white">Você é dono do código-fonte</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 {/* Item 1 */}
                 <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
                   <Smartphone className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
                   <span className="text-sm font-bold">Site Mobile First Profissional</span>
                 </div>
-                {/* Item 2 - 20 Fotos */}
+                
+                {/* Item 2 - Fotos com IA (Dinâmico) */}
                 <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
                   <Sparkles className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
-                  <span className="text-sm font-bold">Bônus: 20 Fotos com IA</span>
+                  <span className="text-sm font-bold">
+                    {billingCycle === 'monthly' ? 'Bônus: 10 Fotos com IA' : 'Bônus: 20 Fotos com IA'}
+                  </span>
                 </div>
                 
                 {/* Item 3 - Dinâmico (Hospedagem) */}
@@ -279,33 +265,39 @@ const SocialProof = () => {
             </div>
           </motion.div>
 
-          {/* Card 3: Suporte (Vidro Claro) */}
+          {/* Card 2: Suporte & Tech (Combined) */}
           <motion.div 
             variants={fadeInUp}
             className="
               bg-white/40 backdrop-blur-xl border border-white/60 
-              p-8 rounded-[2rem] shadow-[0_8px_32px_0_rgba(31,38,135,0.05)]
+              p-8 rounded-[2rem] shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] 
               relative flex flex-col items-center text-center 
-              hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.1)] transition-all duration-300
+              hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.1)] transition-all duration-300 order-2
             "
           >
             <div className="bg-white/50 w-14 h-14 rounded-full flex items-center justify-center mb-4 text-[#2E78A6] shadow-inner border border-white/50">
               <Shield className="w-7 h-7" />
             </div>
-            <h3 className="text-[#2E78A6] font-bold text-xl mb-6">Suporte & Gestão</h3>
+            <h3 className="text-[#2E78A6] font-bold text-xl mb-6">Suporte & Tecnologia</h3>
             
-            <div className="w-full max-w-[240px]">
-              <ul className="space-y-3 text-left">
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
-                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Atualização de Conteúdo
-                </li>
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
-                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Suporte via WhatsApp
-                </li>
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
+            <div className="w-full">
+              <ul className="space-y-4 text-left">
+                <li className="flex items-center gap-3 text-slate-600 text-sm md:text-base font-medium">
                   <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Otimização para Google
                 </li>
-                <li className="flex items-center gap-3 text-slate-600 text-sm font-medium">
+                <li className="flex items-center gap-3 text-slate-600 text-sm md:text-base font-medium">
+                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Certificado SSL
+                </li>
+                <li className="flex items-center gap-3 text-slate-600 text-sm md:text-base font-medium">
+                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Carregamento Rápido
+                </li>
+                <li className="flex items-center gap-3 text-slate-600 text-sm md:text-base font-medium">
+                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Domínio Configurado
+                </li>
+                <li className="flex items-center gap-3 text-slate-600 text-sm md:text-base font-medium">
+                  <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Suporte via WhatsApp
+                </li>
+                <li className="flex items-center gap-3 text-slate-600 text-sm md:text-base font-medium">
                   <Check className="w-5 h-5 text-[#6CC5D9] shrink-0 drop-shadow-sm" /> Monitoramento 24h
                 </li>
               </ul>

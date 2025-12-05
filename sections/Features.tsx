@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Trophy, Clock, Zap, ShieldCheck, Rocket, ChevronDown, MousePointer2 } from 'lucide-react';
 import { staggerContainer, fadeInUp } from '../utils/animations';
 
-// As 6 Estratégias Definidas
-const features = [
+const featuresList = [
   {
     id: 1,
     icon: <MapPin className="w-6 h-6" />,
@@ -47,14 +46,12 @@ const Features = () => {
   const [activeId, setActiveId] = useState<number | null>(null);
 
   return (
-    // Fundo mantendo o degradê vindo do branco (Hero) para conectar as seções
-    <section id="features" className="py-24 bg-gradient-to-b from-white to-[#F2F7FC] relative overflow-hidden">
+    // Mantendo o -mt-2 para corrigir a linha do fundo
+    <section id="features" className="py-24 -mt-2 bg-transparent relative z-20 overflow-hidden">
       
-      {/* Background Decorativo Sutil */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-40">
-        <div className="absolute -top-[10%] -left-[5%] w-[500px] h-[500px] bg-[#E4EAF2] rounded-full blur-[100px]" />
-        <div className="absolute top-[30%] -right-[5%] w-[400px] h-[400px] bg-[#AED3F2]/30 rounded-full blur-[100px]" />
-      </div>
+      {/* Blobs de Luz Locais */}
+      <div className="absolute top-[20%] -left-[10%] w-[500px] h-[500px] bg-[#2E78A6]/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20%] -right-[10%] w-[400px] h-[400px] bg-[#6CC5D9]/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
@@ -66,21 +63,21 @@ const Features = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 mb-4 bg-[#E4EAF2] px-3 py-1 rounded-full">
-            <MousePointer2 size={14} className="text-[#2E78A6]" />
-            <span className="text-[#2E78A6] font-bold uppercase tracking-wider text-xs">
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 mb-4 bg-[#6CC5D9]/10 backdrop-blur-md px-3 py-1 rounded-full border border-[#6CC5D9]/30 shadow-sm">
+            <MousePointer2 size={14} className="text-[#6CC5D9]" />
+            <span className="text-[#6CC5D9] font-bold uppercase tracking-wider text-xs">
               Estratégia Digital
             </span>
           </motion.div>
           
-          <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-extrabold text-[#2E78A6] mb-6 leading-tight">
-            Por que sua clínica precisa da <span className="text-[#6CC5D9]">ClinicPage</span>?
+          <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
+            Por que sua clínica precisa da <span className="text-[#6CC5D9]">ClinicPages</span>?
           </motion.h2>
-          <motion.p variants={fadeInUp} className="text-slate-600 text-lg leading-relaxed">
+          
+          <motion.p variants={fadeInUp} className="text-blue-100/80 text-lg leading-relaxed">
             Não vendemos apenas "sites". <br className="block md:hidden" />
             Vendemos uma estrutura validada <br className="block md:hidden" />
-            para atrair pacientes reais <br className="block md:hidden" />
-            e posicionar sua marca.
+            para atrair pacientes reais.
           </motion.p>
         </motion.div>
 
@@ -91,9 +88,9 @@ const Features = () => {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           layout
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center items-start"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center items-start max-w-6xl mx-auto isolation-isolate"
         >
-          {features.map((item) => {
+          {featuresList.map((item) => {
             const isActive = activeId === item.id;
 
             return (
@@ -103,52 +100,68 @@ const Features = () => {
                 key={item.id}
                 onClick={() => setActiveId(isActive ? null : item.id)}
                 className={`
-                  relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 border w-full group
+                  relative overflow-hidden cursor-pointer transition-all duration-300 w-full group
+                  transform-gpu backface-hidden
+                  
+                  /* ALTERAÇÃO AQUI: De rounded-[2.5rem] para rounded-2xl */
+                  rounded-2xl 
+                  
+                  border border-t-white/30 border-white/10 border-b-black/10
+                  backdrop-blur-xl
+
                   ${isActive 
-                    ? 'bg-gradient-to-br from-[#2E78A6] to-[#205A80] border-[#2E78A6] shadow-xl shadow-[#2E78A6]/30 -translate-y-1' // ATIVO: AZUL
-                    : 'bg-white border-[#AED3F2] hover:border-[#6CC5D9] hover:shadow-lg hover:shadow-[#AED3F2]/40' // INATIVO: BRANCO
+                    ? 'bg-[#2E78A6]/80 shadow-[0_20px_50px_-12px_rgba(46,120,166,0.5)] z-40' 
+                    : 'bg-gradient-to-b from-white/15 to-white/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.4),_0_8px_20px_-5px_rgba(0,0,0,0.3)] hover:brightness-110 z-0 group-hover:z-50' 
                   }
                 `}
+                style={{ 
+                  zIndex: isActive ? 40 : undefined 
+                }}
+                whileHover={{ 
+                  zIndex: 50,
+                  transition: { duration: 0 } 
+                }}
               >
-                <motion.div layout="position" className="px-6 py-8">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                      {/* Ícone */}
-                      <div className={`
-                        p-3 rounded-xl transition-colors duration-300
-                        ${isActive 
-                          ? 'bg-white/20 text-white' // Branco translucido no fundo Azul
-                          : 'bg-[#E4EAF2] text-[#2E78A6] group-hover:bg-[#E0F2FE]' // Azul no fundo Branco
-                        }
-                      `}>
-                        {item.icon}
-                      </div>
-                      {/* Título */}
-                      <h3 className={`font-bold text-sm tracking-wide uppercase ${isActive ? 'text-white' : 'text-slate-800'}`}>
+                <motion.div layout="position" className="p-6 flex flex-col items-center text-center">
+                  
+                  {/* Ícone e Título */}
+                  <div className="flex flex-col items-center gap-4">
+                    <div className={`
+                       transition-all duration-300 drop-shadow-md
+                       ${isActive ? 'text-white scale-110' : 'text-[#6CC5D9] group-hover:text-white group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]'}
+                    `}>
+                      {item.icon}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <h3 className={`font-bold text-sm tracking-wider uppercase transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/90'}`}>
                         {item.title}
                       </h3>
+                      
+                      <motion.div
+                        animate={{ rotate: isActive ? 180 : 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${isActive ? 'text-white/70' : 'text-white/50'}`} />
+                      </motion.div>
                     </div>
-                    
-                    {/* Seta de Expandir */}
-                    <motion.div
-                      animate={{ rotate: isActive ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ChevronDown className={`w-5 h-5 ${isActive ? 'text-[#6CC5D9]' : 'text-[#AED3F2] group-hover:text-[#6CC5D9]'}`} />
-                    </motion.div>
                   </div>
 
-                  {/* Conteúdo Expandido (Descrição) */}
+                  {/* Conteúdo Expandido */}
                   <AnimatePresence>
                     {isActive && (
                       <motion.div
+                        key="content"
                         initial={{ opacity: 0, height: 0, marginTop: 0 }}
                         animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
                         exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        transition={{ duration: 0.4, ease: "easeOut" }}
+                        className="w-full"
                       >
-                        <p className="text-blue-50 text-sm leading-relaxed border-t border-white/20 pt-4 font-medium">
-                          {item.description}
+                        <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent mx-auto mb-4" />
+                        
+                        <p className="text-[15px] leading-relaxed font-medium text-blue-50/95 antialiased px-2 drop-shadow-sm">
+                            {item.description}
                         </p>
                       </motion.div>
                     )}
