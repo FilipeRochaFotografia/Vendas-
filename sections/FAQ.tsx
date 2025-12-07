@@ -6,7 +6,7 @@ import { fadeInUp, staggerContainer } from '../utils/animations';
 const faqs = [
   {
     question: "O site será meu ou é alugado?",
-    answer: "O modelo é de assinatura (SaaS). Isso significa que, enquanto você for assinante, nós cuidamos de toda a infraestrutura, hospedagem e atualizações para você. É como alugar um consultório já mobiliado e decorado: você entra e começa a atender sem dor de cabeça."
+    answer: "Depende do plano escolhido. No Plano Mensal, funciona como uma assinatura (estilo Netflix): nós cuidamos de tudo e o site fica no ar enquanto você for assinante. Já no Plano Vitalício, você faz um pagamento único e o site é 100% seu, com entrega do código-fonte e sem mensalidades eternas."
   },
   {
     question: "Em quanto tempo minha clínica estará no Google?",
@@ -14,11 +14,11 @@ const faqs = [
   },
   {
     question: "Preciso pagar hospedagem por fora?",
-    answer: "Não! No valor da assinatura (R$ 147/mês) já está inclusa a hospedagem em servidores de alta performance e o certificado de segurança SSL. Você economiza cerca de R$ 450/ano só nisso."
+    answer: "Não! No Plano Mensal (R$ 97/mês), a hospedagem premium e o certificado SSL já estão inclusos. No Plano Vitalício, você ganha 1 ano de hospedagem grátis conosco (após isso, você tem total liberdade para renovar ou migrar)."
   },
   {
     question: "Tem fidelidade ou multa de cancelamento?",
-    answer: "Zero fidelidade. Acreditamos que você só deve ficar se estiver tendo resultado. Você pode cancelar sua assinatura a qualquer momento, sem multas surpresas."
+    answer: "Zero fidelidade no plano mensal. Acreditamos que você só deve ficar se estiver tendo resultado. Você pode cancelar sua assinatura a qualquer momento, sem multas surpresas."
   },
   {
     question: "Eu preciso ter um domínio (www.minhaclinica...)?",

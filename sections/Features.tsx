@@ -103,8 +103,8 @@ const Features = () => {
                   relative overflow-hidden cursor-pointer transition-all duration-300 w-full group
                   transform-gpu backface-hidden
                   
-                  /* ALTERAÇÃO AQUI: De rounded-[2.5rem] para rounded-2xl */
-                  rounded-2xl 
+                  /* ALTERAÇÃO: De rounded-2xl para rounded-xl (Mais retangular) */
+                  rounded-xl
                   
                   border border-t-white/30 border-white/10 border-b-black/10
                   backdrop-blur-xl

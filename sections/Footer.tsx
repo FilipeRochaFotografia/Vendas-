@@ -82,7 +82,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <span className="block font-bold text-slate-800">Email</span>
-                  <a href="mailto:contato@clinicpages.com" className="hover:text-[#6CC5D9] transition-colors">contato@clinicpages.com</a>
+                  <a href="mailto:almavisualartscc@gmail.com" className="hover:text-[#6CC5D9] transition-colors">almavisualartscc@gmail.com</a>
                 </div>
               </li>
             </ul>

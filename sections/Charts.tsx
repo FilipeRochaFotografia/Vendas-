@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Smartphone, Search, ArrowUpRight, MousePointerClick, Users, BarChart3 } from 'lucide-react';
+import { Smartphone, Search, ArrowUpRight, MousePointerClick, Users, BarChart3, Monitor, Tablet } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
 // --- Componente para Animar Números (CountUp) ---
-const Counter = ({ from, to, duration = 2, suffix = "" }: { from: number; to: number; duration?: number; suffix?: string }) => {
+const Counter = ({ from, to, duration = 2, suffix = "", decimals = 0 }: { from: number; to: number; duration?: number; suffix?: string; decimals?: number }) => {
   const [count, setCount] = useState(from);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -20,7 +20,7 @@ const Counter = ({ from, to, duration = 2, suffix = "" }: { from: number; to: nu
       const counter = setInterval(() => {
         frame++;
         const progress = easeOutQuad(frame / totalFrames);
-        const currentCount = Math.round(start + (end - start) * progress);
+        const currentCount = start + (end - start) * progress;
 
         if (frame === totalFrames) {
           clearInterval(counter);
@@ -34,12 +34,12 @@ const Counter = ({ from, to, duration = 2, suffix = "" }: { from: number; to: nu
     }
   }, [isInView, from, to, duration]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  return <span ref={ref}>{count.toFixed(decimals)}{suffix}</span>;
 };
 
 const Charts = () => {
   return (
-    // ALTERAÇÃO: Background com gradiente mais puxado para o azul escuro na base
+    // Background com gradiente mais puxado para o azul escuro na base
     <section className="py-20 bg-gradient-to-b from-[#F2F7FC] via-[#E0EBF5] to-[#CEDDEB] relative overflow-hidden">
       
       {/* Background Decorativo Suave */}
@@ -71,17 +71,15 @@ const Charts = () => {
         </motion.div>
 
         {/* --- BENTO GRID LAYOUT --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
 
-          {/* WIDGET 1: Crescimento de Pacientes */}
+          {/* WIDGET 1: Crescimento de Pacientes (GLASS EFFECT) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            // ALTERAÇÃO: min-h reduzido (320 -> 260), padding reduzido (p-8 -> p-6)
-            // CENTRALIZAÇÃO: items-center e text-center no mobile
-            className="md:col-span-2 lg:col-span-2 bg-white rounded-[2rem] p-6 shadow-xl shadow-[#2E78A6]/5 border border-[#E4EAF2] relative overflow-hidden group hover:shadow-2xl transition-all duration-300 min-h-[260px] flex flex-col justify-between"
+            className="md:col-span-2 lg:col-span-2 bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/5 border border-white/40 relative overflow-hidden group hover:shadow-2xl transition-all duration-300 min-h-[220px] flex flex-col justify-between"
           >
             <div className="flex flex-col md:flex-row justify-between items-center md:items-start mb-2 relative z-10 w-full">
               <div className="text-center md:text-left mb-4 md:mb-0">
@@ -89,20 +87,20 @@ const Charts = () => {
                   <Users size={16} className="text-[#6CC5D9]" />
                   Pacientes Identificados / Mês
                 </p>
-                <h3 className="text-5xl font-extrabold text-[#2E78A6] tracking-tight">
+                <h3 className="text-4xl lg:text-5xl font-extrabold text-[#2E78A6] tracking-tight">
                   <Counter from={0} to={1428} />
                 </h3>
               </div>
-              <div className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-sm">
+              <div className="bg-emerald-100/80 backdrop-blur-sm text-emerald-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-sm border border-emerald-200/50">
                 <ArrowUpRight size={14} />
                 +24%
               </div>
             </div>
             
-            <p className="text-xs text-slate-400 mb-4 md:mb-6 text-center md:text-left relative z-10">Crescimento projetado em 6 meses</p>
+            <p className="text-xs text-slate-400 mb-4 text-center md:text-left relative z-10">Crescimento projetado em 6 meses</p>
 
             {/* Gráfico de Área */}
-            <div className="relative flex-grow w-[110%] -ml-[5%] mt-auto h-24 md:h-auto">
+            <div className="relative flex-grow w-[110%] -ml-[5%] mt-auto h-20 md:h-auto">
                <svg viewBox="0 0 500 150" className="w-full h-full overflow-visible preserve-3d">
                  <defs>
                    <linearGradient id="gradientArea" x1="0" y1="0" x2="0" y2="1">
@@ -132,83 +130,128 @@ const Charts = () => {
             </div>
           </motion.div>
 
-          {/* WIDGET 2: Mobile First */}
+          {/* WIDGET 2: Mobile First (UPDATED: Clean Blue Gradient, No Artifacts) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            // ALTERAÇÃO: min-h reduzido, padding reduzido, items-center para centralizar gráfico
-            className="md:col-span-1 bg-[#2E78A6] text-white rounded-[2rem] p-6 shadow-xl shadow-[#2E78A6]/20 relative overflow-hidden flex flex-col justify-between min-h-[260px] items-center md:items-start text-center md:text-left"
+            className="md:col-span-1 bg-gradient-to-br from-[#2E78A6] to-[#205A80] text-white rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/20 border border-white/20 relative overflow-hidden flex flex-col min-h-[220px] group hover:shadow-2xl transition-all duration-300"
           >
-            {/* Background Texture */}
-            <div className="absolute top-[-50%] right-[-50%] w-full h-full bg-[#6CC5D9] rounded-full blur-[80px] opacity-20 pointer-events-none" />
-
-            <div className="relative z-10 w-full">
-               <div className="flex items-center justify-center md:justify-start gap-2 mb-4 opacity-90">
-                  <Smartphone size={20} className="text-[#6CC5D9]" />
-                  <span className="font-bold text-sm">Mobile First</span>
-               </div>
-               
-               <h4 className="text-5xl font-extrabold mb-2 tracking-tight">
-                 <Counter from={0} to={82} suffix="%" />
-               </h4>
-               <p className="text-sm opacity-80 text-blue-100 leading-tight font-medium">
-                 Dos pacientes acessam o site pelo celular.
+            {/* Header */}
+            <div className="relative z-10 w-full mb-4">
+               <p className="text-xs font-medium text-blue-100 flex items-center gap-1.5 mb-1">
+                 <Smartphone size={14} className="text-[#6CC5D9]" />
+                 Usuários
                </p>
+               <div className="flex items-center gap-2 opacity-90">
+                  <span className="font-bold text-sm tracking-wide text-white">Por Categoria</span>
+               </div>
             </div>
 
-            {/* Gráfico de Barras - PROPORÇÃO AJUSTADA */}
-            <div className="flex gap-3 items-end h-32 pb-2 relative z-10 mt-4 w-full justify-center md:justify-start">
-               {/* Barra 1: Pequena (15%) */}
-               <motion.div 
-                 className="w-12 bg-white/20 rounded-t-lg backdrop-blur-sm" 
-                 initial={{ height: 0 }} 
-                 whileInView={{ height: '15%' }} 
-                 transition={{ duration: 0.8, delay: 0.2 }} 
-               />
-               {/* Barra 2: Média (30%) */}
-               <motion.div 
-                 className="w-12 bg-white/40 rounded-t-lg backdrop-blur-sm" 
-                 initial={{ height: 0 }} 
-                 whileInView={{ height: '30%' }} 
-                 transition={{ duration: 0.8, delay: 0.4 }} 
-               />
-               {/* Barra 3: Grande (82%) - A maior de todas */}
-               <motion.div 
-                 className="w-12 bg-[#6CC5D9] rounded-t-lg shadow-lg" 
-                 initial={{ height: 0 }} 
-                 whileInView={{ height: '82%' }} 
-                 transition={{ duration: 0.8, delay: 0.6 }} 
-               />
+            {/* Chart Area */}
+            <div className="relative flex-grow flex items-center justify-center z-10 py-1 bg-transparent">
+               
+               {/* Gráfico Donut SVG - w-40 h-40 */}
+               <div className="relative w-40 h-40 bg-transparent">
+                 <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90 overflow-visible">
+                    {/* Circle Background (Track) */}
+                    <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(255,255,255,0.1)" strokeWidth="10" />
+                    
+                    {/* Segmento Desktop (17%) - Branco Translúcido */}
+                    <motion.circle 
+                      cx="50" cy="50" r="40" 
+                      fill="transparent" 
+                      stroke="rgba(255,255,255,0.3)" 
+                      strokeWidth="10"
+                      strokeDasharray="251.2"
+                      strokeDashoffset="251.2" // Começa vazio
+                      initial={{ strokeDashoffset: 251.2 }}
+                      whileInView={{ strokeDashoffset: 251.2 * (1 - 0.17) }} // Preenche 17%
+                      transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+                      transform="rotate(295 50 50)" 
+                    />
+
+                    {/* Segmento Mobile (82%) - Ciano */}
+                    <motion.circle 
+                      cx="50" cy="50" r="40" 
+                      fill="transparent" 
+                      stroke="#6CC5D9" 
+                      strokeWidth="10"
+                      strokeLinecap="round"
+                      strokeDasharray="251.2" // Circunferência 2*PI*40
+                      strokeDashoffset="251.2"
+                      initial={{ strokeDashoffset: 251.2 }}
+                      whileInView={{ strokeDashoffset: 251.2 * (1 - 0.82) }} // Preenche 82%
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                    />
+                 </svg>
+
+                 {/* Center Content (Icon) */}
+                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <Smartphone className="w-10 h-10 text-white" strokeWidth={1.5} />
+                 </div>
+               </div>
+
+            </div>
+
+            {/* Legend / Stats */}
+            <div className="flex justify-between items-end relative z-10 mt-auto border-t border-white/10 pt-3">
+               
+               {/* Mobile Stat */}
+               <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-1 mb-0.5">
+                    <div className="w-2 h-2 rounded-full bg-[#6CC5D9]" />
+                    <span className="text-[10px] uppercase font-bold text-blue-100">Mobile</span>
+                  </div>
+                  <span className="text-xl font-extrabold leading-none text-white"><Counter from={0} to={82.1} decimals={1} suffix="%" /></span>
+               </div>
+
+               {/* Desktop Stat */}
+               <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-1 mb-0.5">
+                    <div className="w-2 h-2 rounded-full bg-white/30" />
+                    <span className="text-[10px] uppercase font-bold text-blue-200">Desktop</span>
+                  </div>
+                  <span className="text-lg font-bold leading-none text-blue-100"><Counter from={0} to={17.6} decimals={1} suffix="%" /></span>
+               </div>
+
+               {/* Tablet Stat */}
+               <div className="flex flex-col items-center opacity-60">
+                  <div className="flex items-center gap-1 mb-0.5">
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
+                    <span className="text-[10px] uppercase font-bold text-blue-200">Tablet</span>
+                  </div>
+                  <span className="text-lg font-bold leading-none text-blue-100">0.3%</span>
+               </div>
+
             </div>
           </motion.div>
 
-          {/* WIDGET 3: SEO Ranking */}
+          {/* WIDGET 3: SEO Ranking (GLASS EFFECT) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            // ALTERAÇÃO: Centralização mobile aplicada
-            className="md:col-span-2 lg:col-span-2 bg-white rounded-[2rem] p-6 shadow-xl shadow-[#2E78A6]/5 border border-[#E4EAF2] hover:shadow-2xl transition-all duration-300 flex flex-col justify-center"
+            className="md:col-span-2 lg:col-span-2 bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/5 border border-white/40 hover:shadow-2xl transition-all duration-300 flex flex-col justify-center"
           >
-             <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 md:gap-0">
+             <div className="flex flex-col md:flex-row justify-between items-center mb-5 gap-4 md:gap-0">
                 <div className="flex flex-col md:flex-row items-center gap-3 text-center md:text-left">
-                  <div className="p-2.5 bg-[#E4EAF2] rounded-xl text-[#2E78A6]">
-                    <Search size={20} />
+                  <div className="p-2 bg-[#E4EAF2]/50 rounded-xl text-[#2E78A6]">
+                    <Search size={18} />
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-800 text-lg leading-none">Top 1 Google</h3>
                     <p className="text-xs text-slate-500 mt-1">Palavras-chave dominadas</p>
                   </div>
                 </div>
-                <span className="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200">
+                <span className="text-xs font-bold bg-emerald-100/80 backdrop-blur-sm text-emerald-700 px-3 py-1.5 rounded-full border border-emerald-200/50">
                   Ao vivo
                 </span>
              </div>
 
-             <div className="space-y-3 w-full">
+             <div className="space-y-2 w-full">
                {[
                  { keyword: "Dentista especialista em [Cidade]", pos: 1, volume: "Alta procura" },
                  { keyword: "Implante Dentário valor", pos: 2, volume: "Alta conversão" },
@@ -220,34 +263,33 @@ const Charts = () => {
                    whileInView={{ x: 0, opacity: 1 }}
                    transition={{ delay: 0.3 + (i * 0.1) }}
                    viewport={{ once: true }}
-                   className="flex items-center justify-between p-3.5 rounded-xl bg-[#F8FAFC] border border-slate-100 hover:border-[#AED3F2] hover:bg-[#F0F7FF] transition-colors group"
+                   className="flex items-center justify-between p-2.5 rounded-xl bg-white/50 border border-white/50 hover:border-[#AED3F2] hover:bg-white/80 transition-colors group backdrop-blur-sm"
                  >
                     <div className="flex items-center gap-4">
-                       <span className="w-8 h-8 flex items-center justify-center bg-white border border-[#E4EAF2] text-[#2E78A6] font-extrabold text-sm rounded-lg shadow-sm group-hover:bg-[#2E78A6] group-hover:text-white transition-colors">
+                       <span className="w-7 h-7 flex items-center justify-center bg-white border border-[#E4EAF2] text-[#2E78A6] font-extrabold text-sm rounded-lg shadow-sm group-hover:bg-[#2E78A6] group-hover:text-white transition-colors">
                          {item.pos}º
                        </span>
                        <div className="text-left">
-                          <p className="font-bold text-slate-700 text-sm">{item.keyword}</p>
+                          <p className="font-bold text-slate-700 text-sm leading-tight">{item.keyword}</p>
                           <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wide">{item.volume}</p>
                        </div>
                     </div>
                     
-                    <div className="flex items-center text-emerald-500 bg-white p-1.5 rounded-lg shadow-sm">
-                       <ArrowUpRight size={16} />
+                    <div className="flex items-center text-emerald-500 bg-white p-1 rounded-lg shadow-sm">
+                       <ArrowUpRight size={14} />
                     </div>
                  </motion.div>
                ))}
              </div>
           </motion.div>
 
-          {/* WIDGET 4: Call to Action */}
+          {/* WIDGET 4: Call to Action (DARK GLASS EFFECT) */}
           <motion.div 
              initial={{ opacity: 0, scale: 0.95 }}
              whileInView={{ opacity: 1, scale: 1 }}
              transition={{ duration: 0.5, delay: 0.3 }}
              viewport={{ once: true }}
-             // ALTERAÇÃO: Centralização mobile completa
-             className="md:col-span-1 bg-[#0F2942] rounded-[2rem] p-6 flex flex-col justify-center items-center md:items-start text-center md:text-left text-white relative overflow-hidden group cursor-pointer border border-[#2E78A6]/30 min-h-[260px]"
+             className="md:col-span-1 bg-gradient-to-br from-[#0F2942]/95 to-[#0F2942]/85 backdrop-blur-xl rounded-[2rem] p-5 flex flex-col justify-center items-center md:items-start text-center md:text-left text-white relative overflow-hidden group cursor-pointer border border-[#2E78A6]/30 min-h-[220px]"
              onClick={() => window.open('https://wa.me/seunumerodewhatsapp', '_blank')}
           >
              {/* Glow Effect */}
@@ -258,16 +300,16 @@ const Charts = () => {
              </div>
 
              <div className="relative z-10 w-full">
-                <div className="inline-block px-3 py-1 rounded-full bg-[#6CC5D9]/20 text-[#6CC5D9] text-xs font-bold mb-4 border border-[#6CC5D9]/20">
+                <div className="inline-block px-3 py-1 rounded-full bg-[#6CC5D9]/20 text-[#6CC5D9] text-[10px] font-bold mb-3 border border-[#6CC5D9]/20">
                   OPORTUNIDADE
                 </div>
-                <h3 className="text-2xl font-bold mb-3 leading-tight">
+                <h3 className="text-xl md:text-2xl font-bold mb-2 leading-tight">
                   Quer ver esses números?
                 </h3>
-                <p className="text-slate-300 mb-6 text-sm leading-relaxed">
+                <p className="text-slate-300 mb-5 text-sm leading-relaxed">
                   Invista em uma estrutura digital validada que traz retorno financeiro real.
                 </p>
-                <button className="w-full bg-[#6CC5D9] text-[#0F2942] px-4 py-3 rounded-xl font-bold text-sm hover:bg-white transition-all shadow-lg shadow-[#6CC5D9]/20 flex items-center justify-center gap-2">
+                <button className="w-full bg-[#6CC5D9] text-[#0F2942] px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-white transition-all shadow-lg shadow-[#6CC5D9]/20 flex items-center justify-center gap-2">
                   Ver Plano <ArrowUpRight size={16} />
                 </button>
              </div>

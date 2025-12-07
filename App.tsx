@@ -47,16 +47,15 @@ function App() {
       {/* Navigation Header com Comportamento Dinâmico */}
       <nav 
         className={`
-          fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out border-b border-transparent
+          fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out border-b border-transparent
           ${isScrolled 
             /* 
-               ALTERAÇÃO AQUI: 
-               - Mudado de /90 para /70 (mais transparência)
-               - Mudado de backdrop-blur-md para backdrop-blur-xl (mais desfoque para ler o texto)
-               - Adicionado border-white/20 para dar acabamento de vidro
+               ALTERAÇÃO: Dark Glass Effect (Menos Branco, Mais Translucido)
+               - bg-[#0F2942]/60: Fundo azul escuro bem transparente
+               - backdrop-blur-xl: Desfoque forte para legibilidade
             */
-            ? 'bg-gradient-to-r from-[#E4EAF2]/70 via-[#F2F7FC]/70 to-white/70 backdrop-blur-xl shadow-sm h-20 border-white/40' 
-            : 'bg-transparent h-24' // Mais alto e transparente no topo
+            ? 'bg-[#0F2942]/60 backdrop-blur-xl shadow-lg h-20 border-white/10' 
+            : 'bg-transparent h-24' // Mais alto e totalmente transparente no topo
           }
         `}
       >
@@ -72,24 +71,19 @@ function App() {
               alt="Logo Agência" 
               className={`
                 h-6 md:h-8 w-auto object-contain transition-all duration-300 group-hover:scale-105
-                ${isScrolled 
-                  ? 'mix-blend-multiply opacity-90' // Logo original ao rolar
-                  : 'brightness-0 invert opacity-100' // Logo branca no topo
-                }
+                brightness-0 invert opacity-100
               `}
             />
             <div className={`
-              text-lg md:text-2xl font-extrabold tracking-tight transition-colors duration-300
-              ${isScrolled ? 'text-[#2E78A6]' : 'text-white'}
+              text-lg md:text-2xl font-extrabold tracking-tight transition-colors duration-300 text-white
             `}>
-              Clinic<span className={`${isScrolled ? 'text-[#6CC5D9]' : 'text-[#6CC5D9]'}`}>Pages</span>
+              Clinic<span className="text-[#6CC5D9]">Pages</span>
             </div>
           </div>
           
           {/* Links de Navegação */}
           <div className={`
-            hidden md:flex items-center gap-8 font-medium text-sm lg:text-base transition-colors duration-300
-            ${isScrolled ? 'text-[#2E78A6]/80' : 'text-white/90'}
+            hidden md:flex items-center gap-8 font-medium text-sm lg:text-base transition-colors duration-300 text-white/90
           `}>
             {['Início', 'Estratégia', 'Bônus IA', 'Investimento', 'Dúvidas'].map((item, index) => {
                const idMap = ['home', 'features', 'bonus', 'pricing', 'faq'];
@@ -98,10 +92,7 @@ function App() {
                    key={index}
                    href={`#${idMap[index]}`} 
                    onClick={(e) => handleScrollTo(e, idMap[index])} 
-                   className={`
-                     transition-all cursor-pointer hover:font-bold
-                     ${isScrolled ? 'hover:text-[#2E78A6]' : 'hover:text-white'}
-                   `}
+                   className="transition-all cursor-pointer hover:font-bold hover:text-[#6CC5D9]"
                  >
                    {item}
                  </a>
@@ -117,8 +108,8 @@ function App() {
             className={`
               px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base rounded-lg font-bold transition-all shadow-lg transform hover:-translate-y-0.5 border
               ${isScrolled 
-                ? 'bg-[#2E78A6] text-white hover:bg-[#205A80] shadow-[#2E78A6]/20 border-[#2E78A6]' 
-                : 'bg-white text-[#2E78A6] hover:bg-blue-50 shadow-black/10 border-transparent' 
+                ? 'bg-[#6CC5D9] text-[#0F2942] hover:bg-white shadow-[#6CC5D9]/20 border-transparent' // Scrolled: Ciano para destaque no escuro
+                : 'bg-white text-[#2E78A6] hover:bg-blue-50 shadow-black/10 border-transparent' // Top: Branco padrão
               }
             `}
           >

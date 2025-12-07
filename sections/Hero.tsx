@@ -156,12 +156,12 @@ const Hero = () => {
               {/* Avatar Pile */}
               <div className="flex items-center -space-x-3">
                 {[
-                  "https://ui-avatars.com/api/?name=CR&background=0F2942&color=fff&size=64&font-size=0.4&bold=true&length=2",
-                  "https://ui-avatars.com/api/?name=DV&background=ffffff&color=2E78A6&size=64&font-size=0.4&bold=true&length=2",
-                  "https://ui-avatars.com/api/?name=CL&background=6CC5D9&color=fff&size=64&font-size=0.4&bold=true&length=2",
-                  "https://ui-avatars.com/api/?name=MS&background=2E78A6&color=fff&size=64&font-size=0.4&bold=true&length=2"
+                  "https://ui-avatars.com/api/?name=CR&background=2E78A6&color=fff&size=64&font-size=0.4&bold=true&length=2",
+                  "https://ui-avatars.com/api/?name=DV&background=6CC5D9&color=fff&size=64&font-size=0.4&bold=true&length=2",
+                  "https://ui-avatars.com/api/?name=CL&background=2E78A6&color=fff&size=64&font-size=0.4&bold=true&length=2",
+                  "https://ui-avatars.com/api/?name=MS&background=6CC5D9&color=fff&size=64&font-size=0.4&bold=true&length=2"
                 ].map((src, i) => (
-                  <div key={i} className="relative w-10 h-10 rounded-full border-[2.5px] border-[#0F2942] overflow-hidden shadow-sm bg-white group hover:z-10 transition-all">
+                  <div key={i} className="relative w-10 h-10 rounded-full border-[2px] border-[#0F2942] overflow-hidden shadow-lg z-0 hover:z-10 hover:scale-110 transition-all duration-300">
                      <img src={src} alt="Logo Clínica Cliente" className="w-full h-full object-cover" />
                   </div>
                 ))}
