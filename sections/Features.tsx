@@ -63,7 +63,7 @@ const Features = () => {
           </motion.h2>
           
           <motion.p variants={fadeInUp} className="text-blue-100/80 text-lg leading-relaxed">
-            Não vendemos apenas "sites". <br className="block md:hidden" />
+            Não vendemos "sites". <br className="block md:hidden" />
             Vendemos uma estrutura validada <br className="block md:hidden" />
             para atrair pacientes reais.
           </motion.p>
