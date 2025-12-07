@@ -130,7 +130,7 @@ const Hero = () => {
               
               {/* Botão Secundário: Glass Dark (Igual Cards Fechados da Features) */}
               <a 
-                href="https://dente-vida.vercel.app/"
+                href="https://www.dentevida.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="
@@ -152,8 +152,8 @@ const Hero = () => {
               </a>
             </motion.div>
 
-            {/* Social Proof - OCULTO NO MOBILE (hidden md:flex) */}
-            <motion.div variants={fadeInUp} className="hidden md:flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-8 lg:border-t border-white/10 w-full">
+            {/* Social Proof - AGORA VISÍVEL NO MOBILE (removido hidden md:flex) */}
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-8 lg:border-t border-white/10 w-full">
               
               {/* Avatar Pile */}
               <div className="flex items-center -space-x-3">
