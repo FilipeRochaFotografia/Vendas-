@@ -39,8 +39,9 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
+  const scrollToPricing = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById('pricing');
     if (element) {
       const headerOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
@@ -101,9 +102,10 @@ const Hero = () => {
             {/* Botões - ESTILO GLASS UNIFICADO */}
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 mb-12 w-full sm:w-auto justify-center lg:justify-start">
               
-              {/* Botão Primário: Azul Convexo */}
-              <button 
-                onClick={() => scrollToSection('pricing')}
+              {/* Botão Primário: Azul Convexo (Agora Link para Pricing) */}
+              <a 
+                href="#pricing"
+                onClick={scrollToPricing}
                 className="
                   group relative overflow-hidden
                   px-8 py-4 rounded-2xl font-bold text-lg text-white
@@ -116,7 +118,7 @@ const Hero = () => {
                   shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.3),_0_10px_20px_-5px_rgba(46,120,166,0.4)]
                   
                   hover:scale-105 transition-all duration-300
-                  flex items-center justify-center gap-2
+                  flex items-center justify-center gap-2 cursor-pointer
                 "
               >
                 Quero ser encontrado 
@@ -124,7 +126,7 @@ const Hero = () => {
                 
                 {/* Brilho extra no hover */}
                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </button>
+              </a>
               
               {/* Botão Secundário: Glass Dark (Igual Cards Fechados da Features) */}
               <a 

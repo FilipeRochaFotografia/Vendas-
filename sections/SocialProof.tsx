@@ -241,7 +241,7 @@ const SocialProof = () => {
               </div>
 
               <motion.button 
-                onClick={() => window.open('https://wa.me/seunumerodewhatsapp', '_blank')}
+                onClick={() => window.open('https://wa.link/6mtouq', '_blank')}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className={`w-full bg-white ${theme.buttonText} py-4 rounded-xl font-extrabold text-lg shadow-xl flex items-center justify-center gap-3 group relative overflow-hidden`}

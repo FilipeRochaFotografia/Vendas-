@@ -102,11 +102,10 @@ function App() {
 
           {/* Botão CTA */}
           <a 
-            href="https://wa.me/seunumerodewhatsapp" 
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#pricing" 
+            onClick={(e) => handleScrollTo(e, 'pricing')}
             className={`
-              px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base rounded-lg font-bold transition-all shadow-lg transform hover:-translate-y-0.5 border
+              px-4 py-2 text-sm md:px-6 md:py-2.5 md:text-base rounded-lg font-bold transition-all shadow-lg transform hover:-translate-y-0.5 border cursor-pointer
               ${isScrolled 
                 ? 'bg-[#6CC5D9] text-[#0F2942] hover:bg-white shadow-[#6CC5D9]/20 border-transparent' // Scrolled: Ciano para destaque no escuro
                 : 'bg-white text-[#2E78A6] hover:bg-blue-50 shadow-black/10 border-transparent' // Top: Branco padrão

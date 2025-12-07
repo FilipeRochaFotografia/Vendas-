@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Instagram, Facebook, ArrowUp, Mail, MessageCircle } from 'lucide-react';
+import { Phone, ArrowUp, Mail, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -34,21 +34,6 @@ const Footer = () => {
             <p className="text-slate-600 leading-relaxed text-sm">
               Transformamos clínicas comuns em autoridades digitais. Tenha o site que seus pacientes esperam e o resultado que você merece.
             </p>
-            
-            <div className="flex gap-4">
-              <a 
-                href="#" 
-                className="p-2.5 bg-white border border-[#AED3F2] rounded-full text-[#2E78A6] hover:bg-[#2E78A6] hover:text-white transition-all shadow-sm"
-              >
-                <Instagram size={20} />
-              </a>
-              <a 
-                href="#" 
-                className="p-2.5 bg-white border border-[#AED3F2] rounded-full text-[#2E78A6] hover:bg-[#2E78A6] hover:text-white transition-all shadow-sm"
-              >
-                <Facebook size={20} />
-              </a>
-            </div>
           </div>
 
           {/* Coluna 2: Navegação */}
@@ -73,7 +58,8 @@ const Footer = () => {
                 </div>
                 <div>
                   <span className="block font-bold text-slate-800">WhatsApp Comercial</span>
-                  <a href="https://wa.me/seunumerodewhatsapp" className="hover:text-[#6CC5D9] transition-colors">(77) 99999-9999</a>
+                  {/* Link atualizado */}
+                  <a href="https://wa.link/6mtouq" target="_blank" rel="noopener noreferrer" className="hover:text-[#6CC5D9] transition-colors">+351 982334787</a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -98,7 +84,7 @@ const Footer = () => {
             </p>
             
             <a 
-              href="https://wa.me/seunumerodewhatsapp" 
+              href="https://wa.link/6mtouq" 
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full text-center bg-[#2E78A6] text-white py-3 rounded-xl font-bold text-sm hover:bg-[#205A80] transition-colors shadow-md relative z-10"

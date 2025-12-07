@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Smartphone, Search, ArrowUpRight, MousePointerClick, Users, BarChart3, Monitor, Tablet } from 'lucide-react';
+import { Smartphone, Search, ArrowUpRight, MousePointerClick, Users, BarChart3 } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
 // --- Componente para Animar Números (CountUp) ---
@@ -38,6 +38,20 @@ const Counter = ({ from, to, duration = 2, suffix = "", decimals = 0 }: { from: 
 };
 
 const Charts = () => {
+  const scrollToPricing = () => {
+    const element = document.getElementById('pricing');
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
     // Background com gradiente mais puxado para o azul escuro na base
     <section className="py-20 bg-gradient-to-b from-[#F2F7FC] via-[#E0EBF5] to-[#CEDDEB] relative overflow-hidden">
@@ -290,7 +304,7 @@ const Charts = () => {
              transition={{ duration: 0.5, delay: 0.3 }}
              viewport={{ once: true }}
              className="md:col-span-1 bg-gradient-to-br from-[#0F2942]/95 to-[#0F2942]/85 backdrop-blur-xl rounded-[2rem] p-5 flex flex-col justify-center items-center md:items-start text-center md:text-left text-white relative overflow-hidden group cursor-pointer border border-[#2E78A6]/30 min-h-[220px]"
-             onClick={() => window.open('https://wa.me/seunumerodewhatsapp', '_blank')}
+             onClick={scrollToPricing}
           >
              {/* Glow Effect */}
              <div className="absolute inset-0 bg-gradient-to-r from-[#2E78A6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -309,7 +323,10 @@ const Charts = () => {
                 <p className="text-slate-300 mb-5 text-sm leading-relaxed">
                   Invista em uma estrutura digital validada que traz retorno financeiro real.
                 </p>
-                <button className="w-full bg-[#6CC5D9] text-[#0F2942] px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-white transition-all shadow-lg shadow-[#6CC5D9]/20 flex items-center justify-center gap-2">
+                <button 
+                  onClick={(e) => { e.stopPropagation(); scrollToPricing(); }}
+                  className="w-full bg-[#6CC5D9] text-[#0F2942] px-4 py-2.5 rounded-xl font-bold text-sm hover:bg-white transition-all shadow-lg shadow-[#6CC5D9]/20 flex items-center justify-center gap-2"
+                >
                   Ver Plano <ArrowUpRight size={16} />
                 </button>
              </div>

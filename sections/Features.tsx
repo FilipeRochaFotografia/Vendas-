@@ -23,18 +23,6 @@ const featuresList = [
     description: "Pare de perder pacientes para clínicas vizinhas. Tenha uma presença digital superior e torne-se a escolha óbvia."
   },
   {
-    id: 4,
-    icon: <ShieldCheck className="w-6 h-6" />,
-    title: "PRESENÇA PROFISSIONAL",
-    description: "Fuja do amadorismo. Um site exclusivo transmite a credibilidade e a segurança que pacientes particulares exigem."
-  },
-  {
-    id: 5,
-    icon: <Zap className="w-6 h-6" />,
-    title: "TECNOLOGIA DE ELITE",
-    description: "Desenvolvido em React/Next.js, a mesma tecnologia usada por gigantes como Netflix. Zero travamentos, velocidade total."
-  },
-  {
     id: 6,
     icon: <Rocket className="w-6 h-6" />,
     title: "NO AR EM 72 HORAS",
@@ -81,14 +69,14 @@ const Features = () => {
           </motion.p>
         </motion.div>
 
-        {/* Grid de Cards */}
+        {/* Grid de Cards - Ajustado para 2 Colunas (2x2) */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           layout
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center items-start max-w-6xl mx-auto isolation-isolate"
+          className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 justify-items-center items-start max-w-5xl mx-auto isolation-isolate"
         >
           {featuresList.map((item) => {
             const isActive = activeId === item.id;
