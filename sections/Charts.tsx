@@ -62,7 +62,8 @@ const Charts = () => {
             Dados de Mercado
           </motion.div>
           
-          <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl font-extrabold text-[#2E78A6] mb-4 leading-tight">
+          {/* Título Ajustado para Mobile: text-2xl para evitar quebra indesejada na segunda linha */}
+          <motion.h2 variants={fadeInUp} className="text-2xl md:text-4xl font-extrabold text-[#2E78A6] mb-4 leading-tight">
             O impacto real de um <br/>
             site de <span className="text-[#6CC5D9]">alta performance</span>.
           </motion.h2>
@@ -93,14 +94,14 @@ const Charts = () => {
               </div>
               <div className="bg-emerald-100/80 backdrop-blur-sm text-emerald-700 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1 shadow-sm border border-emerald-200/50">
                 <ArrowUpRight size={14} />
-                +24%
+                +64%
               </div>
             </div>
             
             <p className="text-xs text-slate-400 mb-4 text-center md:text-left relative z-10">Crescimento projetado em 6 meses</p>
 
-            <div className="relative flex-grow w-[110%] -ml-[5%] mt-auto h-20 md:h-auto">
-               <svg viewBox="0 0 500 150" className="w-full h-full overflow-visible">
+            <div className="relative flex-grow w-[110%] -ml-[5%] mt-auto h-24 md:h-auto">
+               <svg viewBox="0 0 500 150" className="w-full h-full overflow-visible" preserveAspectRatio="none">
                  <defs>
                    <linearGradient id="gradientArea" x1="0" y1="0" x2="0" y2="1">
                      <stop offset="0%" stopColor="#2E78A6" stopOpacity="0.15" />
@@ -115,7 +116,7 @@ const Charts = () => {
                     strokeLinecap="round"
                     initial={{ pathLength: 0 }}
                     whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }} // Importante: Anima só uma vez
+                    viewport={{ once: true }}
                     transition={{ duration: 2, ease: "easeInOut" }}
                     className="drop-shadow-md"
                  />
@@ -140,12 +141,9 @@ const Charts = () => {
             className="md:col-span-1 bg-gradient-to-br from-[#2E78A6] to-[#205A80] text-white rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/20 border border-white/20 relative overflow-hidden flex flex-col min-h-[220px] group hover:shadow-2xl transition-all duration-300 transform-gpu"
           >
             <div className="relative z-10 w-full mb-4">
-               <p className="text-xs font-medium text-blue-100 flex items-center gap-1.5 mb-1">
-                 <Smartphone size={14} className="text-[#6CC5D9]" />
-                 Usuários
-               </p>
-               <div className="flex items-center gap-2 opacity-90">
-                  <span className="font-bold text-sm tracking-wide text-white">Por Categoria</span>
+               <div className="flex items-center gap-2">
+                  <Smartphone size={20} className="text-[#6CC5D9]" />
+                  <h3 className="font-bold text-xl tracking-wide text-white">Mobile First</h3>
                </div>
             </div>
 
@@ -206,12 +204,10 @@ const Charts = () => {
                   <span className="text-lg font-bold leading-none text-blue-100"><Counter from={0} to={17.6} decimals={1} suffix="%" /></span>
                </div>
 
-               <div className="flex flex-col items-center opacity-60">
-                  <div className="flex items-center gap-1 mb-0.5">
-                    <div className="w-2 h-2 rounded-full bg-white/10" />
-                    <span className="text-[10px] uppercase font-bold text-blue-200">Tablet</span>
-                  </div>
-                  <span className="text-lg font-bold leading-none text-blue-100">0.3%</span>
+               <div className="flex flex-col items-end justify-end h-full pb-0.5">
+                  <span className="text-[10px] font-medium text-blue-200/80 uppercase tracking-wider text-right leading-tight">
+                    Usuários<br/>por Categoria
+                  </span>
                </div>
             </div>
           </motion.div>

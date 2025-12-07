@@ -125,7 +125,7 @@ const Team = () => {
           <motion.p variants={fadeInUp} className="text-blue-100/80 text-lg max-w-3xl mx-auto leading-relaxed">
             Um site premium exige imagens premium. <br className="hidden md:block" />
             Como bônus, utilizaremos <strong>Inteligência Artificial</strong> de última geração <br className="hidden md:block" />
-            para criar retratos corporativos profissionais da sua equipe.
+            para criar retratos profissionais da sua equipe.
           </motion.p>
         </motion.div>
 

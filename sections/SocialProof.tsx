@@ -50,7 +50,7 @@ const SocialProof = () => {
             <span className="text-[#6CC5D9] line-through decoration-[#6CC5D9]/50 decoration-4">perder pacientes</span>?
           </motion.h2>
           <motion.p variants={fadeInUp} className="text-slate-600 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-            Tenha a estrutura de uma grande rede de clínicas por um valor menor que uma única restauração por mês.
+            Tenha a estrutura de uma grande rede de clínicas por um valor menor que um único procedimento por mês.
           </motion.p>
         </motion.div>
 
@@ -114,156 +114,135 @@ const SocialProof = () => {
           viewport={{ once: true }}
           className="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto" 
         >
-          {/* Card 1: A Oferta Principal (Primeiro) */}
-          <motion.div 
-            variants={fadeInUp}
-            whileHover={{ 
-              y: -10, 
-              scale: 1.02,
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className={`
-              ${theme.cardBg}
-              text-white rounded-[2.5rem] shadow-2xl
-              relative z-20 flex flex-col items-center text-center p-0 overflow-visible my-4 md:my-0
-              border-4 transition-all duration-500 order-1
-            `}
-          >
-            <motion.div 
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ repeat: Infinity, duration: 2.5 }}
-              className={`absolute -top-5 px-6 py-2 rounded-full text-sm font-extrabold shadow-lg uppercase tracking-wide z-30 border border-white/20 ${theme.badgeBg}`}
-            >
-              Oferta Especial
-            </motion.div>
-
-            <div className="p-10 w-full flex flex-col items-center">
-              
-              <div className="mb-8 mt-2 h-36 flex flex-col justify-center">
-                <p className={`${theme.subText} font-semibold text-xs uppercase tracking-[0.2em] mb-3`}>
-                  {isLifetime ? 'ACESSO VITALÍCIO' : 'ASSINATURA FLEX'}
-                </p>
-                
-                <AnimatePresence mode="wait">
-                  {billingCycle === 'monthly' ? (
-                    <motion.div
-                      key="monthly"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="flex items-baseline justify-center gap-1">
-                        <span className="text-2xl font-medium opacity-80">R$</span>
-                        <span className="text-7xl font-extrabold tracking-tighter drop-shadow-md">97</span>
-                        <span className="text-xl font-medium opacity-80">/mês</span>
-                      </div>
-                      <p className="text-sm text-blue-100 mt-2 font-medium">+ Taxa única de setup: R$ 450</p>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="lifetime"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <div className="flex flex-col items-center gap-0">
-                        {/* Texto "De" maior */}
-                        <span className="text-xl text-white/70 line-through decoration-white/50 mb-1 font-medium">De R$ 3.200</span>
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-2xl font-medium opacity-80">R$</span>
-                          <span className="text-6xl font-extrabold tracking-tighter drop-shadow-md">1.690</span>
-                        </div>
-                      </div>
-                      <p className="text-sm text-amber-100 mt-2 font-bold bg-white/20 px-3 py-1 rounded-full inline-block border border-white/20">
-                        Em até 12x no cartão
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div className="space-y-3 w-full mb-8">
-                
-                {/* Item Vitalício Exclusivo: Dono do Código */}
-                <AnimatePresence>
-                  {isLifetime && (
-                    <motion.div
-                      key="code-ownership"
-                      initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-                      animate={{ opacity: 1, height: 'auto', marginBottom: 12 }}
-                      exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                      className="bg-white/20 border border-white/30 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm overflow-hidden"
-                    >
-                      <CodeXml className="w-5 h-5 shrink-0 text-white" />
-                      <span className="text-sm font-extrabold text-white">Você é dono do código-fonte</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Item 1 */}
-                <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
-                  <Smartphone className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
-                  <span className="text-sm font-bold">Site Mobile First Profissional</span>
-                </div>
-                
-                {/* Item 2 - Fotos com IA (Dinâmico) */}
-                <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
-                  <Sparkles className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
-                  <span className="text-sm font-bold">
-                    {billingCycle === 'monthly' ? 'Bônus: 10 Fotos com IA' : 'Bônus: 20 Fotos com IA'}
-                  </span>
-                </div>
-                
-                {/* Item 3 - Dinâmico (Hospedagem) */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={billingCycle}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm"
-                  >
-                    {billingCycle === 'monthly' ? (
-                      <>
-                        <Zap className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
-                        <span className="text-sm font-bold">Hospedagem Premium</span>
-                      </>
-                    ) : (
-                      <>
-                        <Server className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
-                        <span className="text-sm font-bold">1 Ano de Hospedagem Grátis</span>
-                      </>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              <motion.button 
-                onClick={() => window.open('https://wa.link/6mtouq', '_blank')}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className={`w-full bg-white ${theme.buttonText} py-4 rounded-xl font-extrabold text-lg shadow-xl flex items-center justify-center gap-3 group relative overflow-hidden`}
+          {/* Wrapper para perspectiva 3D da animação de virada */}
+          <div className="relative z-20 order-1 perspective-[1000px]">
+             <AnimatePresence mode="wait">
+              <motion.div 
+                key={billingCycle}
+                initial={{ rotateY: -90, opacity: 0 }}
+                animate={{ rotateY: 0, opacity: 1 }}
+                exit={{ rotateY: 90, opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className={`
+                  ${theme.cardBg}
+                  text-white rounded-[2.5rem] shadow-2xl
+                  flex flex-col items-center text-center p-0 overflow-visible my-4 md:my-0
+                  border-4 backface-hidden transform-gpu
+                `}
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  {billingCycle === 'monthly' ? 'Assinar Agora' : 'Comprar Vitalício'}
-                  <motion.div
-                    animate={{ rotate: 0 }}
-                    whileHover={{ rotate: 180, scale: 1.2 }}
-                    transition={{ duration: 0.4 }}
+                <motion.div 
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className={`absolute -top-5 px-6 py-2 rounded-full text-sm font-extrabold shadow-lg uppercase tracking-wide z-30 border border-white/20 ${theme.badgeBg}`}
+                >
+                  Oferta Especial
+                </motion.div>
+
+                <div className="p-10 w-full flex flex-col items-center">
+                  
+                  <div className="mb-8 mt-2 h-36 flex flex-col justify-center">
+                    <p className={`${theme.subText} font-semibold text-xs uppercase tracking-[0.2em] mb-3`}>
+                      {isLifetime ? 'ACESSO VITALÍCIO' : 'ASSINATURA FLEX'}
+                    </p>
+                    
+                    {/* Conteúdo do Preço */}
+                    <div>
+                      {billingCycle === 'monthly' ? (
+                        <div>
+                          <div className="flex items-baseline justify-center gap-1">
+                            <span className="text-2xl font-medium opacity-80">R$</span>
+                            <span className="text-7xl font-extrabold tracking-tighter drop-shadow-md">97</span>
+                            <span className="text-xl font-medium opacity-80">/mês</span>
+                          </div>
+                          <p className="text-sm text-blue-100 mt-2 font-medium">+ Taxa única de setup: R$ 450</p>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="flex flex-col items-center gap-0">
+                            {/* Texto "De" maior */}
+                            <span className="text-xl text-white/70 line-through decoration-white/50 mb-1 font-medium">De R$ 3.200</span>
+                            <div className="flex items-baseline gap-1">
+                              <span className="text-2xl font-medium opacity-80">R$</span>
+                              <span className="text-6xl font-extrabold tracking-tighter drop-shadow-md">1.690</span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-amber-100 mt-2 font-bold bg-white/20 px-3 py-1 rounded-full inline-block border border-white/20">
+                            Em até 12x no cartão
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 w-full mb-8">
+                    
+                    {/* Item Vitalício Exclusivo: Dono do Código */}
+                    {isLifetime && (
+                      <div
+                        className="bg-white/20 border border-white/30 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm overflow-hidden"
+                      >
+                        <CodeXml className="w-5 h-5 shrink-0 text-white" />
+                        <span className="text-sm font-extrabold text-white">Você é dono do código-fonte</span>
+                      </div>
+                    )}
+
+                    {/* Item 1 */}
+                    <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
+                      <Smartphone className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
+                      <span className="text-sm font-bold">Site Mobile First Profissional</span>
+                    </div>
+                    
+                    {/* Item 2 - Fotos com IA (Dinâmico) */}
+                    <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
+                      <Sparkles className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
+                      <span className="text-sm font-bold">
+                        {billingCycle === 'monthly' ? 'Bônus: 10 Fotos com IA' : 'Bônus: 20 Fotos com IA'}
+                      </span>
+                    </div>
+                    
+                    {/* Item 3 - Dinâmico (Hospedagem) */}
+                    <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
+                        {billingCycle === 'monthly' ? (
+                          <>
+                            <Zap className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
+                            <span className="text-sm font-bold">Hospedagem Premium</span>
+                          </>
+                        ) : (
+                          <>
+                            <Server className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
+                            <span className="text-sm font-bold">1 Ano de Hospedagem Grátis</span>
+                          </>
+                        )}
+                    </div>
+                  </div>
+
+                  <motion.button 
+                    onClick={() => window.open('https://wa.link/6mtouq', '_blank')}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className={`w-full bg-white ${theme.buttonText} py-4 rounded-xl font-extrabold text-lg shadow-xl flex items-center justify-center gap-3 group relative overflow-hidden`}
                   >
-                    <Sparkles className={`w-5 h-5 ${isLifetime ? 'text-amber-500' : 'text-[#6CC5D9]'}`} />
-                  </motion.div>
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#E4EAF2] to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity" style={{ transform: 'skewX(-20deg)' }} />
-              </motion.button>
-              
-              <p className="text-center text-[10px] uppercase tracking-wide text-white/80 mt-5">
-                {billingCycle === 'monthly' ? 'Sem fidelidade. Cancele quando quiser.' : 'Pagamento único. Site seu para sempre.'}
-              </p>
-            </div>
-          </motion.div>
+                    <span className="relative z-10 flex items-center gap-2">
+                      {billingCycle === 'monthly' ? 'Assinar Agora' : 'Comprar Vitalício'}
+                      <motion.div
+                        animate={{ rotate: 0 }}
+                        whileHover={{ rotate: 180, scale: 1.2 }}
+                        transition={{ duration: 0.4 }}
+                      >
+                        <Sparkles className={`w-5 h-5 ${isLifetime ? 'text-amber-500' : 'text-[#6CC5D9]'}`} />
+                      </motion.div>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#E4EAF2] to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer transition-opacity" style={{ transform: 'skewX(-20deg)' }} />
+                  </motion.button>
+                  
+                  <p className="text-center text-[10px] uppercase tracking-wide text-white/80 mt-5">
+                    {billingCycle === 'monthly' ? 'Sem fidelidade. Cancele quando quiser.' : 'Pagamento único. Site seu para sempre.'}
+                  </p>
+                </div>
+              </motion.div>
+             </AnimatePresence>
+          </div>
 
           {/* Card 2: Suporte & Tech (Combined) */}
           <motion.div 
