@@ -13,17 +13,19 @@ const Card: React.FC<CardProps> = ({ children, className = '', delay = 0 }) => {
     <motion.div
       variants={fadeInUp}
       whileHover={hoverLift}
-      className={`relative p-8 rounded-[2.5rem] bg-white border border-teal-100/50 shadow-glass backdrop-blur-sm overflow-hidden group ${className}`}
+      // OTIMIZAÇÃO: 'transform-gpu' para animações suaves e 'will-change-transform' para performance no scroll
+      className={`relative p-8 rounded-[2.5rem] bg-white border border-teal-100/50 shadow-glass backdrop-blur-sm overflow-hidden group transform-gpu will-change-transform ${className}`}
     >
       {/* Decorative top gradient line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-200 via-teal-500 to-teal-200 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
+      {/* Conteúdo com z-index garantido */}
       <div className="relative z-10">
         {children}
       </div>
 
-      {/* Background ambient glow */}
-      <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-teal-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+      {/* Background ambient glow - Otimizado para não causar 'layout trashing' */}
+      <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-teal-100 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none translate-z-0" />
     </motion.div>
   );
 };

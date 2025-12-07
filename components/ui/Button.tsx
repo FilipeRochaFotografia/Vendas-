@@ -11,7 +11,8 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', className = '', onClick, icon }) => {
   
-  const baseStyles = "relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-semibold transition-all duration-300 rounded-[2rem] group";
+  // OTIMIZAÇÃO: Adicionado 'transform-gpu' para garantir que a animação de escala use a placa de vídeo
+  const baseStyles = "relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-semibold transition-all duration-300 rounded-[2rem] group transform-gpu";
   
   const variants = {
     primary: "bg-teal-500 text-white shadow-lg shadow-teal-500/30 hover:shadow-teal-500/50 hover:bg-teal-600",
@@ -24,11 +25,12 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', classNam
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       onClick={onClick}
+      // OTIMIZAÇÃO: layout="position" removido se não for necessário para evitar cálculos pesados
       className={`${baseStyles} ${variants[variant]} ${className}`}
     >
-      {/* Shine effect for primary buttons */}
+      {/* Shine effect - Otimizado com will-change */}
       {variant === 'primary' && (
-        <span className="absolute top-0 left-0 w-full h-full -mt-1 transition-all duration-500 opacity-0 rounded-[2rem] bg-gradient-to-b from-white/20 to-transparent group-hover:opacity-100 group-hover:mt-0"></span>
+        <span className="absolute top-0 left-0 w-full h-full -mt-1 transition-all duration-500 opacity-0 rounded-[2rem] bg-gradient-to-b from-white/20 to-transparent group-hover:opacity-100 group-hover:mt-0 will-change-[opacity,margin]"></span>
       )}
 
       <span className="relative flex items-center gap-2 z-10">

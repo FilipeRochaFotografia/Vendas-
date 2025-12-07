@@ -1,40 +1,33 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useEffect } from 'react';
+import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { Smartphone, Search, ArrowUpRight, MousePointerClick, Users, BarChart3 } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
-// --- Componente para Animar Números (CountUp) ---
+// OTIMIZAÇÃO: Contador que não causa Re-renders no React
 const Counter = ({ from, to, duration = 2, suffix = "", decimals = 0 }: { from: number; to: number; duration?: number; suffix?: string; decimals?: number }) => {
-  const [count, setCount] = useState(from);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(nodeRef, { once: true, margin: "-50px" });
+  
+  // Motion value puro (fora do ciclo de render do React)
+  const motionValue = useMotionValue(from);
+  const springValue = useSpring(motionValue, { damping: 50, stiffness: 100 });
 
   useEffect(() => {
     if (isInView) {
-      let start = from;
-      const end = to;
-      const totalFrames = Math.round(duration * 60);
-      const easeOutQuad = (t: number) => t * (2 - t);
-      let frame = 0;
-
-      const counter = setInterval(() => {
-        frame++;
-        const progress = easeOutQuad(frame / totalFrames);
-        const currentCount = start + (end - start) * progress;
-
-        if (frame === totalFrames) {
-          clearInterval(counter);
-          setCount(end);
-        } else {
-          setCount(currentCount);
-        }
-      }, 1000 / 60);
-
-      return () => clearInterval(counter);
+      motionValue.set(to);
     }
-  }, [isInView, from, to, duration]);
+  }, [isInView, to, motionValue]);
 
-  return <span ref={ref}>{count.toFixed(decimals)}{suffix}</span>;
+  useEffect(() => {
+    const unsubscribe = springValue.on("change", (latest) => {
+      if (nodeRef.current) {
+        nodeRef.current.textContent = latest.toFixed(decimals) + suffix;
+      }
+    });
+    return () => unsubscribe();
+  }, [springValue, decimals, suffix]);
+
+  return <span ref={nodeRef}>{from.toFixed(decimals)}{suffix}</span>;
 };
 
 const Charts = () => {
@@ -44,30 +37,24 @@ const Charts = () => {
       const headerOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
     }
   };
 
   return (
-    // Background com gradiente mais puxado para o azul escuro na base
     <section className="py-20 bg-gradient-to-b from-[#F2F7FC] via-[#E0EBF5] to-[#CEDDEB] relative overflow-hidden">
       
-      {/* Background Decorativo Suave */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-80 pointer-events-none translate-x-1/3 -translate-y-1/4" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#AED3F2]/30 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 translate-y-1/4" />
+      {/* Background simplificado para performance */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-80 pointer-events-none translate-x-1/3 -translate-y-1/4 will-change-transform" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#AED3F2]/30 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 translate-y-1/4 will-change-transform" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
-        {/* Header da Seção */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           className="mb-12 text-center max-w-3xl mx-auto"
         >
           <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-[#2E78A6]/10 text-[#2E78A6] font-bold text-xs uppercase tracking-wider border border-[#2E78A6]/20">
@@ -84,16 +71,15 @@ const Charts = () => {
           </motion.p>
         </motion.div>
 
-        {/* --- BENTO GRID LAYOUT --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
 
-          {/* WIDGET 1: Crescimento de Pacientes (GLASS EFFECT) */}
+          {/* WIDGET 1 */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="md:col-span-2 lg:col-span-2 bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/5 border border-white/40 relative overflow-hidden group hover:shadow-2xl transition-all duration-300 min-h-[220px] flex flex-col justify-between"
+            className="md:col-span-2 lg:col-span-2 bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/5 border border-white/40 relative overflow-hidden group hover:shadow-2xl transition-all duration-300 min-h-[220px] flex flex-col justify-between transform-gpu"
           >
             <div className="flex flex-col md:flex-row justify-between items-center md:items-start mb-2 relative z-10 w-full">
               <div className="text-center md:text-left mb-4 md:mb-0">
@@ -113,9 +99,8 @@ const Charts = () => {
             
             <p className="text-xs text-slate-400 mb-4 text-center md:text-left relative z-10">Crescimento projetado em 6 meses</p>
 
-            {/* Gráfico de Área */}
             <div className="relative flex-grow w-[110%] -ml-[5%] mt-auto h-20 md:h-auto">
-               <svg viewBox="0 0 500 150" className="w-full h-full overflow-visible preserve-3d">
+               <svg viewBox="0 0 500 150" className="w-full h-full overflow-visible">
                  <defs>
                    <linearGradient id="gradientArea" x1="0" y1="0" x2="0" y2="1">
                      <stop offset="0%" stopColor="#2E78A6" stopOpacity="0.15" />
@@ -130,6 +115,7 @@ const Charts = () => {
                     strokeLinecap="round"
                     initial={{ pathLength: 0 }}
                     whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true }} // Importante: Anima só uma vez
                     transition={{ duration: 2, ease: "easeInOut" }}
                     className="drop-shadow-md"
                  />
@@ -138,21 +124,21 @@ const Charts = () => {
                     fill="url(#gradientArea)"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     transition={{ delay: 0.5, duration: 1 }}
                  />
                </svg>
             </div>
           </motion.div>
 
-          {/* WIDGET 2: Mobile First (UPDATED: Clean Blue Gradient, No Artifacts) */}
+          {/* WIDGET 2 */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="md:col-span-1 bg-gradient-to-br from-[#2E78A6] to-[#205A80] text-white rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/20 border border-white/20 relative overflow-hidden flex flex-col min-h-[220px] group hover:shadow-2xl transition-all duration-300"
+            className="md:col-span-1 bg-gradient-to-br from-[#2E78A6] to-[#205A80] text-white rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/20 border border-white/20 relative overflow-hidden flex flex-col min-h-[220px] group hover:shadow-2xl transition-all duration-300 transform-gpu"
           >
-            {/* Header */}
             <div className="relative z-10 w-full mb-4">
                <p className="text-xs font-medium text-blue-100 flex items-center gap-1.5 mb-1">
                  <Smartphone size={14} className="text-[#6CC5D9]" />
@@ -163,56 +149,47 @@ const Charts = () => {
                </div>
             </div>
 
-            {/* Chart Area */}
             <div className="relative flex-grow flex items-center justify-center z-10 py-1 bg-transparent">
-               
-               {/* Gráfico Donut SVG - w-40 h-40 */}
                <div className="relative w-40 h-40 bg-transparent">
                  <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90 overflow-visible">
-                    {/* Circle Background (Track) */}
                     <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(255,255,255,0.1)" strokeWidth="10" />
                     
-                    {/* Segmento Desktop (17%) - Branco Translúcido */}
                     <motion.circle 
                       cx="50" cy="50" r="40" 
                       fill="transparent" 
                       stroke="rgba(255,255,255,0.3)" 
                       strokeWidth="10"
                       strokeDasharray="251.2"
-                      strokeDashoffset="251.2" // Começa vazio
+                      strokeDashoffset="251.2"
                       initial={{ strokeDashoffset: 251.2 }}
-                      whileInView={{ strokeDashoffset: 251.2 * (1 - 0.17) }} // Preenche 17%
+                      whileInView={{ strokeDashoffset: 251.2 * (1 - 0.17) }} 
+                      viewport={{ once: true }}
                       transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
                       transform="rotate(295 50 50)" 
                     />
 
-                    {/* Segmento Mobile (82%) - Ciano */}
                     <motion.circle 
                       cx="50" cy="50" r="40" 
                       fill="transparent" 
                       stroke="#6CC5D9" 
                       strokeWidth="10"
                       strokeLinecap="round"
-                      strokeDasharray="251.2" // Circunferência 2*PI*40
+                      strokeDasharray="251.2" 
                       strokeDashoffset="251.2"
                       initial={{ strokeDashoffset: 251.2 }}
-                      whileInView={{ strokeDashoffset: 251.2 * (1 - 0.82) }} // Preenche 82%
+                      whileInView={{ strokeDashoffset: 251.2 * (1 - 0.82) }} 
+                      viewport={{ once: true }}
                       transition={{ duration: 1.5, ease: "easeOut" }}
                     />
                  </svg>
 
-                 {/* Center Content (Icon) */}
                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <Smartphone className="w-10 h-10 text-white" strokeWidth={1.5} />
                  </div>
                </div>
-
             </div>
 
-            {/* Legend / Stats */}
             <div className="flex justify-between items-end relative z-10 mt-auto border-t border-white/10 pt-3">
-               
-               {/* Mobile Stat */}
                <div className="flex flex-col items-center">
                   <div className="flex items-center gap-1 mb-0.5">
                     <div className="w-2 h-2 rounded-full bg-[#6CC5D9]" />
@@ -221,7 +198,6 @@ const Charts = () => {
                   <span className="text-xl font-extrabold leading-none text-white"><Counter from={0} to={82.1} decimals={1} suffix="%" /></span>
                </div>
 
-               {/* Desktop Stat */}
                <div className="flex flex-col items-center">
                   <div className="flex items-center gap-1 mb-0.5">
                     <div className="w-2 h-2 rounded-full bg-white/30" />
@@ -230,7 +206,6 @@ const Charts = () => {
                   <span className="text-lg font-bold leading-none text-blue-100"><Counter from={0} to={17.6} decimals={1} suffix="%" /></span>
                </div>
 
-               {/* Tablet Stat */}
                <div className="flex flex-col items-center opacity-60">
                   <div className="flex items-center gap-1 mb-0.5">
                     <div className="w-2 h-2 rounded-full bg-white/10" />
@@ -238,17 +213,16 @@ const Charts = () => {
                   </div>
                   <span className="text-lg font-bold leading-none text-blue-100">0.3%</span>
                </div>
-
             </div>
           </motion.div>
 
-          {/* WIDGET 3: SEO Ranking (GLASS EFFECT) */}
+          {/* WIDGET 3 */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="md:col-span-2 lg:col-span-2 bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/5 border border-white/40 hover:shadow-2xl transition-all duration-300 flex flex-col justify-center"
+            className="md:col-span-2 lg:col-span-2 bg-gradient-to-b from-white/60 to-white/30 backdrop-blur-xl rounded-[2rem] p-5 shadow-xl shadow-[#2E78A6]/5 border border-white/40 hover:shadow-2xl transition-all duration-300 flex flex-col justify-center transform-gpu"
           >
              <div className="flex flex-col md:flex-row justify-between items-center mb-5 gap-4 md:gap-0">
                 <div className="flex flex-col md:flex-row items-center gap-3 text-center md:text-left">
@@ -297,16 +271,15 @@ const Charts = () => {
              </div>
           </motion.div>
 
-          {/* WIDGET 4: Call to Action (DARK GLASS EFFECT) */}
+          {/* WIDGET 4 */}
           <motion.div 
              initial={{ opacity: 0, scale: 0.95 }}
              whileInView={{ opacity: 1, scale: 1 }}
              transition={{ duration: 0.5, delay: 0.3 }}
              viewport={{ once: true }}
-             className="md:col-span-1 bg-gradient-to-br from-[#0F2942]/95 to-[#0F2942]/85 backdrop-blur-xl rounded-[2rem] p-5 flex flex-col justify-center items-center md:items-start text-center md:text-left text-white relative overflow-hidden group cursor-pointer border border-[#2E78A6]/30 min-h-[220px]"
+             className="md:col-span-1 bg-gradient-to-br from-[#0F2942]/95 to-[#0F2942]/85 backdrop-blur-xl rounded-[2rem] p-5 flex flex-col justify-center items-center md:items-start text-center md:text-left text-white relative overflow-hidden group cursor-pointer border border-[#2E78A6]/30 min-h-[220px] transform-gpu"
              onClick={scrollToPricing}
           >
-             {/* Glow Effect */}
              <div className="absolute inset-0 bg-gradient-to-r from-[#2E78A6]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
              
              <div className="absolute right-[-20px] bottom-[-30px] opacity-5 group-hover:opacity-10 transition-opacity duration-500 transform group-hover:rotate-12 group-hover:scale-110">
