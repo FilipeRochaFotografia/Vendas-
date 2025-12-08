@@ -59,7 +59,7 @@ const Footer = () => {
                 <div>
                   <span className="block font-bold text-slate-800">WhatsApp Comercial</span>
                   {/* Link atualizado */}
-                  <a href="https://wa.link/6mtouq" target="_blank" rel="noopener noreferrer" className="hover:text-[#6CC5D9] transition-colors">+351 982334787</a>
+                  <a href="https://wa.link/kxfsjj" target="_blank" rel="noopener noreferrer" className="hover:text-[#6CC5D9] transition-colors">+351 936351006</a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -84,7 +84,7 @@ const Footer = () => {
             </p>
             
             <a 
-              href="https://wa.link/6mtouq" 
+              href="https://wa.link/kxfsjj" 
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full text-center bg-[#2E78A6] text-white py-3 rounded-xl font-bold text-sm hover:bg-[#205A80] transition-colors shadow-md relative z-10"

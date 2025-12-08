@@ -71,10 +71,9 @@ const Hero = () => {
             animate="visible"
             className="max-w-2xl flex flex-col items-center lg:items-start text-center lg:text-left mx-auto lg:mx-0 z-20"
           >
-          {/* Badge */}
+            {/* Badge */}
             <motion.div 
               variants={fadeInUp} 
-              // ALTERAÇÃO: Mudei de 'bg-white/5' para 'bg-white/10'
               className="relative z-30 -mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white font-bold text-sm mb-0 lg:mb-8 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)]"
             >
               <span className="relative flex h-2.5 w-2.5">
@@ -84,9 +83,9 @@ const Hero = () => {
               Pare de perder pacientes hoje
             </motion.div>
 
-{/* --- IMAGEM MOBILE (VIDRO LISO - SEM QUADRADOS) --- */}
+            {/* --- IMAGEM MOBILE (ANIMADA) --- */}
             <motion.div 
-              variants={fadeInUp}
+              variants={fadeInUp} // Adicionado Efeito de Entrada Suave
               className="relative w-full max-w-[400px] mx-auto -mt-10 lg:hidden flex flex-col items-center justify-end z-10"
             >
                {/* WRAPPER COM MÁSCARA */}
@@ -97,12 +96,7 @@ const Hero = () => {
                       
                       {/* VIDRO LIMPO E LISO */}
                       <div className="w-full h-full rounded-t-[4rem] border-t border-x border-white/20 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-sm shadow-[inset_0_10px_20px_rgba(255,255,255,0.05)]">
-                        
-                        {/* Reflexo de Luz Superior (Borda brilhante extra) */}
                         <div className="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
-                        
-                        {/* REMOVI O GRID QUE ESTAVA AQUI */}
-                        
                       </div>
                   </div>
 

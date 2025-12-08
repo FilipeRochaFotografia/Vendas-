@@ -50,7 +50,8 @@ function App() {
   };
 
   return (
-    <main className="w-full min-h-screen bg-white text-slate-900 font-sans selection:bg-[#AED3F2] selection:text-[#2E78A6]">
+    // FIX: Adicionado 'overflow-x-hidden' para evitar scroll lateral indesejado no mobile
+    <main className="w-full min-h-screen bg-white text-slate-900 font-sans selection:bg-[#AED3F2] selection:text-[#2E78A6] overflow-x-hidden">
       
       <nav 
         className={`
