@@ -55,18 +55,14 @@ const Hero = () => {
   };
 
   return (
-    // ALTERAÇÃO: Fundo transparente (bg-transparent) para usar o fundo do App.tsx
     <section id="home" className="relative min-h-screen w-full flex items-center pt-28 lg:pt-20 overflow-visible bg-transparent">
       
-      {/* 
-         REMOVIDO: Textura e Gradiente Global (agora estão no App.tsx)
-         MANTIDO: Blobs de Luz Locais para iluminação de destaque nas bordas
-      */}
+      {/* Blobs de Luz Locais */}
       <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] bg-[#6CC5D9]/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-20%] left-[-10%] w-[40vw] h-[40vw] bg-[#2E78A6]/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-4 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-4 items-center">
           
           {/* Left Content */}
           <motion.div 
@@ -75,10 +71,10 @@ const Hero = () => {
             animate="visible"
             className="max-w-2xl flex flex-col items-center lg:items-start text-center lg:text-left mx-auto lg:mx-0 z-20"
           >
-            {/* Badge Glass Style */}
+            {/* Badge */}
             <motion.div 
               variants={fadeInUp} 
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-bold text-sm mb-8 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)]"
+              className="relative z-30 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-bold text-sm mb-0 lg:mb-8 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)]"
             >
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -87,63 +83,70 @@ const Hero = () => {
               Pare de perder pacientes hoje
             </motion.div>
 
-            {/* Headline */}
-            <motion.h1 variants={fadeInUp} className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-6">
-              Seu site transmite <br className="hidden lg:block"/>
-              a mesma <span className="text-[#6CC5D9]">qualidade</span> <br className="hidden lg:block"/>
-              do seu consultório?
+            {/* --- IMAGEM MOBILE --- */}
+            <motion.div 
+              variants={fadeInUp}
+              className="relative w-full max-w-[400px] mx-auto -mt-16 lg:hidden flex flex-col items-center justify-end z-10"
+            >
+               {/* 1. Glow de Fundo */}
+               <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[120%] h-[100%] bg-gradient-to-t from-[#2E78A6]/30 via-[#2E78A6]/10 to-transparent blur-[50px] rounded-full pointer-events-none" />
+
+               {/* 2. Imagem com MÁSCARA (Sem ícones flutuantes) */}
+               <img 
+                 src="https://i.ibb.co/8LR0XvNC/Medica-sem-fundo-2.png" 
+                 alt="Médica Especialista" 
+                 className="
+                    relative z-10 w-auto h-auto max-h-[450px] object-contain 
+                    scale-[1.3] translate-y-8
+                    [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]
+                    [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]
+                 "
+               />
+               {/* Ícone Pill removido daqui */}
+            </motion.div>
+
+            {/* Headline Formatada (Quebra de linha forçada em todas as telas) */}
+            <motion.h1 
+              variants={fadeInUp} 
+              className="relative z-20 -mt-4 text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-6"
+            >
+              Seu site transmite <br />
+              a mesma <span className="text-[#6CC5D9]">qualidade</span> <br />
+              da sua clínica?
             </motion.h1>
 
-            {/* Subheadline */}
-            <motion.p variants={fadeInUp} className="text-lg lg:text-xl text-blue-100/80 mb-8 leading-relaxed max-w-lg">
-              94% dos pacientes pesquisam no Google antes de agendar. Se sua clínica não tem um site profissional, você é invisível. Tenha sua estrutura digital completa com a <strong>ClinicPages</strong> em apenas <strong className="text-[#6CC5D9]">72 horas</strong>.
+            {/* Subheadline Simplificada */}
+            <motion.p variants={fadeInUp} className="relative z-20 text-lg lg:text-xl text-blue-100/80 mb-8 leading-relaxed max-w-lg">
+              Tenha sua estrutura digital completa <br className="block" />
+              com a <strong>ClinicPages</strong> em apenas <strong className="text-[#6CC5D9]">72 horas</strong>.
             </motion.p>
 
-            {/* Botões - ESTILO GLASS UNIFICADO */}
-            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4 mb-12 w-full sm:w-auto justify-center lg:justify-start">
-              
-              {/* Botão Primário: Azul Convexo (Agora Link para Pricing) */}
+            <motion.div variants={fadeInUp} className="relative z-20 flex flex-col sm:flex-row gap-4 mb-12 w-full sm:w-auto justify-center lg:justify-start">
               <a 
                 href="#pricing"
                 onClick={scrollToPricing}
                 className="
-                  group relative overflow-hidden
-                  px-8 py-4 rounded-2xl font-bold text-lg text-white
-                  
-                  /* Fundo Gradiente Azul */
+                  group relative overflow-hidden px-8 py-4 rounded-2xl font-bold text-lg text-white
                   bg-gradient-to-b from-[#2E78A6] to-[#205A80]
-                  
-                  /* Borda Sutil e Sombra Interna (Efeito Convexo) */
                   border-t border-white/20 border-b border-black/20
                   shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.3),_0_10px_20px_-5px_rgba(46,120,166,0.4)]
-                  
                   hover:scale-105 transition-all duration-300
                   flex items-center justify-center gap-2 cursor-pointer
                 "
               >
-                Quero ser encontrado 
+                Quero ser referência 
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                
-                {/* Brilho extra no hover */}
-                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
               </a>
               
-              {/* Botão Secundário: Glass Dark (Igual Cards Fechados da Features) */}
               <a 
                 href="https://www.dentevida.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="
                   px-8 py-4 rounded-2xl font-bold text-lg text-white
-                  
-                  /* Vidro Escuro */
-                  bg-gradient-to-b from-white/10 to-white/5
-                  backdrop-blur-md
-                  
-                  /* Borda e Sombra Convexas */
+                  bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-md
                   border border-t-white/20 border-white/10
                   shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)]
-                  
                   hover:bg-white/10 hover:scale-105
                   transition-all duration-300 flex items-center justify-center cursor-pointer
                 "
@@ -152,10 +155,7 @@ const Hero = () => {
               </a>
             </motion.div>
 
-            {/* Social Proof - AGORA VISÍVEL NO MOBILE (removido hidden md:flex) */}
-            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-8 lg:border-t border-white/10 w-full">
-              
-              {/* Avatar Pile */}
+            <motion.div variants={fadeInUp} className="relative z-20 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-5 pt-8 lg:border-t border-white/10 w-full">
               <div className="flex items-center -space-x-3">
                 {[
                   "https://ui-avatars.com/api/?name=CR&background=2E78A6&color=fff&size=64&font-size=0.4&bold=true&length=2",
@@ -168,8 +168,6 @@ const Hero = () => {
                   </div>
                 ))}
               </div>
-
-              {/* Rating Block */}
               <div className="flex flex-col items-center sm:items-start justify-center h-full">
                  <div className="flex items-center gap-1.5">
                     <Star className="w-5 h-5 text-yellow-400 fill-current drop-shadow-sm" />
@@ -177,18 +175,16 @@ const Hero = () => {
                     <span className="text-blue-100/70 text-base font-medium whitespace-nowrap">confiam na ClinicPages</span>
                  </div>
               </div>
-
             </motion.div>
           </motion.div>
 
-          {/* Right Content - Mockup */}
+          {/* Right Content - Mockup (DESKTOP ONLY) */}
           <motion.div 
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             className="relative hidden lg:block max-w-[100%] mx-auto transform scale-115 lg:-ml 10 origin-center"
           >
-            {/* Main Mockup Frame */}
             <div className="relative z-20 w-full h-full flex items-center justify-center group">
               <img 
                 src="https://i.ibb.co/V0Gc4GVL/Mockup-22.png" 
@@ -203,20 +199,12 @@ const Hero = () => {
               />
             </div>
 
-            {/* Badge Flutuante 1: Google - WHITE GLASS CONVEX */}
+            {/* Badge Flutuante Desktop */}
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.8, type: "spring" }}
-              className="
-                absolute -right-4 top-16 z-30 
-                /* Estilo Convexo Branco Leitoso */
-                bg-gradient-to-b from-white/95 to-white/90
-                backdrop-blur-md 
-                border-t border-white/80 border-white/40 border-b-black/5
-                shadow-[inset_0_1px_1px_0_rgba(255,255,255,1),_0_10px_30px_-5px_rgba(0,0,0,0.3)]
-                p-3 pr-5 rounded-2xl flex items-center gap-3
-              "
+              className="absolute -right-4 top-16 z-30 bg-gradient-to-b from-white/95 to-white/90 backdrop-blur-md border-t border-white/80 border-white/40 border-b-black/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,1),_0_10px_30px_-5px_rgba(0,0,0,0.3)] p-3 pr-5 rounded-2xl flex items-center gap-3"
             >
               <div className="bg-[#E4EAF2] p-2 rounded-full shadow-inner">
                 <CheckCircle className="w-5 h-5 text-[#2E78A6]" />
@@ -227,7 +215,7 @@ const Hero = () => {
               </div>
             </motion.div>
 
-            {/* CARD DINÂMICO: Notificações - WHITE GLASS CONVEX */}
+            {/* Notificações Desktop */}
             <div className="absolute -left-4 bottom-10 z-30 w-72">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -236,14 +224,7 @@ const Hero = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.95 }}
                   transition={{ duration: 0.5 }}
-                  className="
-                    /* Estilo Convexo Branco Leitoso (Idêntico ao card de cima) */
-                    bg-gradient-to-b from-white/95 to-white/90
-                    backdrop-blur-md
-                    border-t border-white/80 border-white/40 border-b-black/5
-                    shadow-[inset_0_1px_1px_0_rgba(255,255,255,1),_0_10px_30px_-5px_rgba(0,0,0,0.3)]
-                    p-4 pr-6 rounded-2xl flex items-center gap-4
-                  "
+                  className="bg-gradient-to-b from-white/95 to-white/90 backdrop-blur-md border-t border-white/80 border-white/40 border-b-black/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,1),_0_10px_30px_-5px_rgba(0,0,0,0.3)] p-4 pr-6 rounded-2xl flex items-center gap-4"
                 >
                    <div className={`${notifications[currentNotification].color} p-3 rounded-full text-white shadow-lg shrink-0`}>
                       {notifications[currentNotification].icon}
@@ -255,7 +236,6 @@ const Hero = () => {
                 </motion.div>
               </AnimatePresence>
             </div>
-
           </motion.div>
 
         </div>
