@@ -71,10 +71,11 @@ const Hero = () => {
             animate="visible"
             className="max-w-2xl flex flex-col items-center lg:items-start text-center lg:text-left mx-auto lg:mx-0 z-20"
           >
-            {/* Badge */}
+          {/* Badge */}
             <motion.div 
               variants={fadeInUp} 
-              className="relative z-30 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-white font-bold text-sm mb-0 lg:mb-8 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)]"
+              // ALTERAÇÃO: Mudei de 'bg-white/5' para 'bg-white/10'
+              className="relative z-30 -mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-white font-bold text-sm mb-0 lg:mb-8 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)]"
             >
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -83,39 +84,48 @@ const Hero = () => {
               Pare de perder pacientes hoje
             </motion.div>
 
-            {/* --- IMAGEM MOBILE --- */}
+{/* --- IMAGEM MOBILE (VIDRO LISO - SEM QUADRADOS) --- */}
             <motion.div 
               variants={fadeInUp}
-              className="relative w-full max-w-[400px] mx-auto -mt-16 lg:hidden flex flex-col items-center justify-end z-10"
+              className="relative w-full max-w-[400px] mx-auto -mt-10 lg:hidden flex flex-col items-center justify-end z-10"
             >
-               {/* 1. Glow de Fundo */}
-               <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[120%] h-[100%] bg-gradient-to-t from-[#2E78A6]/30 via-[#2E78A6]/10 to-transparent blur-[50px] rounded-full pointer-events-none" />
+               {/* WRAPPER COM MÁSCARA */}
+               <div className="relative w-full flex justify-center [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]">
+                  
+                  {/* 1. O PORTAL DE VIDRO (Fundo) */}
+                  <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90%] h-[100%] z-0 pointer-events-none">
+                      
+                      {/* VIDRO LIMPO E LISO */}
+                      <div className="w-full h-full rounded-t-[4rem] border-t border-x border-white/20 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-sm shadow-[inset_0_10px_20px_rgba(255,255,255,0.05)]">
+                        
+                        {/* Reflexo de Luz Superior (Borda brilhante extra) */}
+                        <div className="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+                        
+                        {/* REMOVI O GRID QUE ESTAVA AQUI */}
+                        
+                      </div>
+                  </div>
 
-               {/* 2. Imagem com MÁSCARA (Sem ícones flutuantes) */}
-               <img 
-                 src="https://i.ibb.co/8LR0XvNC/Medica-sem-fundo-2.png" 
-                 alt="Médica Especialista" 
-                 className="
-                    relative z-10 w-auto h-auto max-h-[450px] object-contain 
-                    scale-[1.3] translate-y-8
-                    [mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]
-                    [-webkit-mask-image:linear-gradient(to_bottom,black_60%,transparent_100%)]
-                 "
-               />
-               {/* Ícone Pill removido daqui */}
+                  {/* 2. Imagem da Médica */}
+                  <img 
+                    src="https://i.ibb.co/7dLRVzQZ/Medica-sem-fundo-3.png" 
+                    alt="Médica Especialista" 
+                    className="relative z-10 w-auto h-auto max-h-[420px] object-contain scale-[1.3] translate-y-6"
+                  />
+               </div>
             </motion.div>
 
-            {/* Headline Formatada (Quebra de linha forçada em todas as telas) */}
+            {/* Headline */}
             <motion.h1 
               variants={fadeInUp} 
-              className="relative z-20 -mt-4 text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-6"
+              className="relative z-20 -mt-6 text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-6"
             >
               Seu site transmite <br />
               a mesma <span className="text-[#6CC5D9]">qualidade</span> <br />
               da sua clínica?
             </motion.h1>
 
-            {/* Subheadline Simplificada */}
+            {/* Subheadline */}
             <motion.p variants={fadeInUp} className="relative z-20 text-lg lg:text-xl text-blue-100/80 mb-8 leading-relaxed max-w-lg">
               Tenha sua estrutura digital completa <br className="block" />
               com a <strong>ClinicPages</strong> em apenas <strong className="text-[#6CC5D9]">72 horas</strong>.
