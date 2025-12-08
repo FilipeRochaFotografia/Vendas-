@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Trophy, Clock, Zap, ShieldCheck, Rocket, ChevronDown, MousePointer2 } from 'lucide-react';
+import { MapPin, Trophy, Clock, Rocket, ChevronDown, MousePointer2 } from 'lucide-react';
 import { staggerContainer, fadeInUp } from '../utils/animations';
 
 const featuresList = [
@@ -37,9 +37,9 @@ const Features = () => {
     // Mantendo o -mt-2 para corrigir a linha do fundo
     <section id="features" className="py-24 -mt-2 bg-transparent relative z-20 overflow-hidden">
       
-      {/* Blobs de Luz Locais */}
-      <div className="absolute top-[20%] -left-[10%] w-[500px] h-[500px] bg-[#2E78A6]/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] -right-[10%] w-[400px] h-[400px] bg-[#6CC5D9]/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Blobs de Luz Locais - OTIMIZAÇÃO: GPU */}
+      <div className="absolute top-[20%] -left-[10%] w-[500px] h-[500px] bg-[#2E78A6]/20 rounded-full blur-[120px] pointer-events-none transform-gpu" />
+      <div className="absolute bottom-[20%] -right-[10%] w-[400px] h-[400px] bg-[#6CC5D9]/10 rounded-full blur-[100px] pointer-events-none transform-gpu" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
@@ -69,13 +69,12 @@ const Features = () => {
           </motion.p>
         </motion.div>
 
-        {/* Grid de Cards - Ajustado para 2 Colunas (2x2) */}
+        {/* Grid de Cards */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          layout
           className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 justify-items-center items-start max-w-5xl mx-auto isolation-isolate"
         >
           {featuresList.map((item) => {
@@ -83,17 +82,15 @@ const Features = () => {
 
             return (
               <motion.div
-                layout
+                layout // Permite animação fluida ao expandir
                 variants={fadeInUp}
                 key={item.id}
                 onClick={() => setActiveId(isActive ? null : item.id)}
+                transition={{ layout: { duration: 0.3, ease: "easeInOut" } }}
                 className={`
                   relative overflow-hidden cursor-pointer transition-all duration-300 w-full group
-                  transform-gpu backface-hidden
-                  
-                  /* ALTERAÇÃO: De rounded-2xl para rounded-xl (Mais retangular) */
+                  transform-gpu backface-hidden will-change-transform
                   rounded-xl
-                  
                   border border-t-white/30 border-white/10 border-b-black/10
                   backdrop-blur-xl
 
@@ -102,13 +99,8 @@ const Features = () => {
                     : 'bg-gradient-to-b from-white/15 to-white/5 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.4),_0_8px_20px_-5px_rgba(0,0,0,0.3)] hover:brightness-110 z-0 group-hover:z-50' 
                   }
                 `}
-                style={{ 
-                  zIndex: isActive ? 40 : undefined 
-                }}
-                whileHover={{ 
-                  zIndex: 50,
-                  transition: { duration: 0 } 
-                }}
+                style={{ zIndex: isActive ? 40 : undefined }}
+                whileHover={{ zIndex: 50, transition: { duration: 0 } }}
               >
                 <motion.div layout="position" className="p-6 flex flex-col items-center text-center">
                   
@@ -136,15 +128,15 @@ const Features = () => {
                   </div>
 
                   {/* Conteúdo Expandido */}
-                  <AnimatePresence>
+                  <AnimatePresence mode="wait">
                     {isActive && (
                       <motion.div
                         key="content"
                         initial={{ opacity: 0, height: 0, marginTop: 0 }}
                         animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
                         exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                        transition={{ duration: 0.4, ease: "easeOut" }}
-                        className="w-full"
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="w-full overflow-hidden" // Importante: overflow-hidden evita bugs visuais
                       >
                         <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent mx-auto mb-4" />
                         

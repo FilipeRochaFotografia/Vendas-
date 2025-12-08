@@ -39,13 +39,22 @@ const Team = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
+  // OTIMIZAÇÃO: Debounce no listener de resize para não travar a CPU
   useEffect(() => {
+    let timeoutId: number;
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setIsMobile(window.innerWidth < 768);
+      }, 100); // Espera 100ms antes de recalcular
     };
+    
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const nextSlide = () => {
@@ -73,18 +82,20 @@ const Team = () => {
     if (relativeIndex === 0) return 'center';
     if (relativeIndex === 1) return 'right';
     if (relativeIndex === total - 1) return 'left';
-    return 'back'; // O item que sobra fica atrás
+    return 'back'; 
   };
 
+  // OTIMIZAÇÃO: 'willChange' avisa o navegador para preparar a GPU
   const variants = {
-    center: { x: '0%', scale: 1, zIndex: 50, opacity: 1, filter: 'blur(0px)', rotateY: 0 },
-    left: { x: '-60%', scale: 0.8, zIndex: 30, opacity: 0.6, filter: 'blur(2px)', rotateY: 15 },
-    right: { x: '60%', scale: 0.8, zIndex: 30, opacity: 0.6, filter: 'blur(2px)', rotateY: -15 },
-    back: { x: '0%', scale: 0.6, zIndex: 10, opacity: 0, filter: 'blur(4px)', rotateY: 0 }, // Esconde atrás
+    center: { x: '0%', scale: 1, zIndex: 50, opacity: 1, filter: 'blur(0px)', rotateY: 0, willChange: 'transform, opacity' },
+    left: { x: '-60%', scale: 0.8, zIndex: 30, opacity: 0.6, filter: 'blur(2px)', rotateY: 15, willChange: 'transform, opacity' },
+    right: { x: '60%', scale: 0.8, zIndex: 30, opacity: 0.6, filter: 'blur(2px)', rotateY: -15, willChange: 'transform, opacity' },
+    back: { x: '0%', scale: 0.6, zIndex: 10, opacity: 0, filter: 'blur(4px)', rotateY: 0 }, 
   };
 
+  // OTIMIZAÇÃO: Mobile sem blur pesado
   const mobileVariants = {
-    center: { x: 0, opacity: 1, scale: 1, zIndex: 50, display: 'block' },
+    center: { x: 0, opacity: 1, scale: 1, zIndex: 50, display: 'block', willChange: 'transform' },
     left: { x: 0, opacity: 0, scale: 0.9, zIndex: 0, display: 'none' },
     right: { x: 0, opacity: 0, scale: 0.9, zIndex: 0, display: 'none' },
     back: { display: 'none' }
@@ -97,12 +108,12 @@ const Team = () => {
       <div className="absolute inset-0 bg-[#0F2942]" />
       <div className="absolute inset-0 bg-[radial-gradient(100%_60%_at_50%_0%,_rgba(108,197,217,0.15)_0%,_rgba(46,120,166,0.1)_50%,_transparent_100%)] pointer-events-none" />
 
-      {/* Decorative Blobs */}
-      <div className="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] bg-[#2E78A6]/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute -bottom-[20%] -left-[10%] w-[500px] h-[500px] bg-[#6CC5D9]/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Decorative Blobs - OTIMIZADO: GPU */}
+      <div className="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] bg-[#2E78A6]/20 rounded-full blur-[120px] pointer-events-none transform-gpu" />
+      <div className="absolute -bottom-[20%] -left-[10%] w-[500px] h-[500px] bg-[#6CC5D9]/10 rounded-full blur-[100px] pointer-events-none transform-gpu" />
       
       {/* Texture Overlay */}
-      <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay"></div>
+      <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] mix-blend-overlay pointer-events-none"></div>
 
       <div className="container mx-auto px-6 relative z-10">
         
@@ -125,7 +136,7 @@ const Team = () => {
           <motion.p variants={fadeInUp} className="text-blue-100/80 text-lg max-w-3xl mx-auto leading-relaxed">
             Um site premium exige imagens premium. <br className="hidden md:block" />
             Como bônus, utilizaremos <strong>Inteligência Artificial</strong> de última geração <br className="hidden md:block" />
-            para criar retratos profissionais da sua equipe.
+            para criar retratos corporativos profissionais da sua equipe.
           </motion.p>
         </motion.div>
 
@@ -153,39 +164,47 @@ const Team = () => {
 
           {/* Cards */}
           <div className="relative w-[280px] xs:w-[300px] md:w-[340px] flex items-center justify-center">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={member.id}
-                variants={isMobile ? mobileVariants : variants}
-                animate={getCardVariant(index)}
-                initial="hidden"
-                transition={{ duration: 0.5, type: 'spring', stiffness: 100, damping: 20 }}
-                className="absolute w-full aspect-[3/4] cursor-grab active:cursor-grabbing"
-                drag={isMobile ? "x" : false}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.2}
-                onDragEnd={onDragEnd}
-              >
-                {/* Image Card Container */}
-                <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black/50 border-[3px] border-white/10 bg-[#0F2942]">
-                  {/* Badge 'Gerado por IA' */}
-                  <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
-                    <Sparkles className="w-3 h-3 text-[#6CC5D9]" />
-                    <span className="text-[10px] font-bold text-white uppercase tracking-wide">IA Premium</span>
-                  </div>
+            {teamMembers.map((member, index) => {
+              const isActive = index === activeIndex;
+              return (
+                <motion.div
+                  key={member.id}
+                  variants={isMobile ? mobileVariants : variants}
+                  animate={getCardVariant(index)}
+                  initial="hidden"
+                  transition={{ duration: 0.5, type: 'spring', stiffness: 100, damping: 20 }}
+                  className="absolute w-full aspect-[3/4] cursor-grab active:cursor-grabbing"
+                  drag={isMobile ? "x" : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.2}
+                  onDragEnd={onDragEnd}
+                >
+                  {/* Image Card Container */}
+                  <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-black/50 border-[3px] border-white/10 bg-[#0F2942] transform-gpu">
+                    {/* Badge 'Gerado por IA' */}
+                    <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
+                      <Sparkles className="w-3 h-3 text-[#6CC5D9]" />
+                      <span className="text-[10px] font-bold text-white uppercase tracking-wide">IA Premium</span>
+                    </div>
 
-                  <img 
-                    src={member.realImage} 
-                    alt={member.role} 
-                    className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
-                    draggable="false" 
-                  />
-                  
-                  {/* Overlay Gradiente */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F2942] via-transparent to-transparent opacity-60" />
-                </div>
-              </motion.div>
-            ))}
+                    <img 
+                      src={member.realImage} 
+                      alt={member.role} 
+                      // OTIMIZAÇÃO: width/height explícitos e lazy loading condicional
+                      width="340"
+                      height="450"
+                      loading={isActive ? "eager" : "lazy"}
+                      decoding="async"
+                      className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
+                      draggable="false" 
+                    />
+                    
+                    {/* Overlay Gradiente */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0F2942] via-transparent to-transparent opacity-60 pointer-events-none" />
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 

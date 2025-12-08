@@ -8,36 +8,27 @@ const SocialProof = () => {
 
   const isLifetime = billingCycle === 'lifetime';
   
-  // Configuração de Temas (Cores)
+  // Configuração de Temas
   const theme = {
-    // Card Principal: Azul (Mensal) vs Dourado (Vitalício)
     cardBg: isLifetime 
       ? 'bg-gradient-to-br from-[#D9A404] to-[#A66D03] shadow-[#A66D03]/40 border-white/20' 
       : 'bg-gradient-to-br from-[#2E78A6] to-[#205A80] shadow-[#2E78A6]/30 border-white/20',
-    
-    // Badge "Oferta Especial"
     badgeBg: isLifetime ? 'bg-white text-[#A66D03]' : 'bg-[#6CC5D9] text-white',
-    
-    // Texto do Botão de Ação
     buttonText: isLifetime ? 'text-[#A66D03]' : 'text-[#2E78A6]',
-    
-    // Ícones internos do card
     iconColor: isLifetime ? 'text-white' : 'text-[#6CC5D9]',
-    
-    // Subtítulo
     subText: isLifetime ? 'text-amber-100' : 'text-[#AED3F2]',
   };
 
   return (
     <section id="pricing" className="py-24 bg-gradient-to-b from-white to-[#E4EAF2] relative overflow-hidden">
       
-      {/* Background Decorativo */}
-      <div className="absolute top-[10%] left-[-10%] w-[60vw] h-[60vw] bg-[#AED3F2]/40 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#2E78A6]/15 rounded-full blur-[120px] pointer-events-none" />
+      {/* Background Decorativo - Otimizado com GPU */}
+      <div className="absolute top-[10%] left-[-10%] w-[60vw] h-[60vw] bg-[#AED3F2]/40 rounded-full blur-[120px] pointer-events-none transform-gpu" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-[#2E78A6]/15 rounded-full blur-[120px] pointer-events-none transform-gpu" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
-        {/* Header da Seção */}
+        {/* Header */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
@@ -54,7 +45,7 @@ const SocialProof = () => {
           </motion.p>
         </motion.div>
 
-        {/* --- TOGGLE DE PLANOS --- */}
+        {/* --- TOGGLE --- */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +54,6 @@ const SocialProof = () => {
         >
           <div className="bg-white/60 backdrop-blur-xl border border-[#AED3F2] p-1.5 rounded-full flex items-center shadow-lg relative">
             
-            {/* Botão Mensal */}
             <button 
               onClick={() => setBillingCycle('monthly')}
               className={`
@@ -81,7 +71,6 @@ const SocialProof = () => {
               Plano Mensal
             </button>
 
-            {/* Botão Vitalício */}
             <button 
               onClick={() => setBillingCycle('lifetime')}
               className={`
@@ -92,13 +81,11 @@ const SocialProof = () => {
               {billingCycle === 'lifetime' && (
                 <motion.div
                   layoutId="activePill"
-                  // ALTERAÇÃO: Usando #D9A404 (Dourado Claro) para o botão
                   className="absolute inset-0 bg-[#D9A404] rounded-full -z-10 shadow-md"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
               Plano Vitalício
-              {/* Tag de Desconto - Texto dourado escuro para contraste no branco */}
               <span className={`text-[10px] px-2 py-0.5 rounded-full shadow-sm ${billingCycle === 'lifetime' ? 'bg-white text-[#A66D03]' : 'bg-[#D9A404]/10 text-[#A66D03]'}`}>
                 -50% OFF
               </span>
@@ -106,7 +93,7 @@ const SocialProof = () => {
           </div>
         </motion.div>
 
-        {/* Grid de Cards - Alterado para 2 Colunas */}
+        {/* Grid de Cards */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
@@ -114,7 +101,7 @@ const SocialProof = () => {
           viewport={{ once: true }}
           className="grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto" 
         >
-          {/* Wrapper para perspectiva 3D da animação de virada */}
+          {/* Card 1: Oferta (Com Animação 3D Otimizada) */}
           <div className="relative z-20 order-1 perspective-[1000px]">
              <AnimatePresence mode="wait">
               <motion.div 
@@ -127,8 +114,9 @@ const SocialProof = () => {
                   ${theme.cardBg}
                   text-white rounded-[2.5rem] shadow-2xl
                   flex flex-col items-center text-center p-0 overflow-visible my-4 md:my-0
-                  border-4 backface-hidden transform-gpu
+                  border-4 transform-gpu
                 `}
+                style={{ backfaceVisibility: 'hidden' }} // OTIMIZAÇÃO: Evita flicker na animação
               >
                 <motion.div 
                   initial={{ opacity: 0, y: -20 }}
@@ -147,7 +135,7 @@ const SocialProof = () => {
                     </p>
                     
                     {/* Conteúdo do Preço */}
-                    <div>
+                    <motion.div layout>
                       {billingCycle === 'monthly' ? (
                         <div>
                           <div className="flex items-baseline justify-center gap-1">
@@ -160,7 +148,6 @@ const SocialProof = () => {
                       ) : (
                         <div>
                           <div className="flex flex-col items-center gap-0">
-                            {/* Texto "De" maior */}
                             <span className="text-xl text-white/70 line-through decoration-white/50 mb-1 font-medium">De R$ 3.200</span>
                             <div className="flex items-baseline gap-1">
                               <span className="text-2xl font-medium opacity-80">R$</span>
@@ -172,28 +159,29 @@ const SocialProof = () => {
                           </p>
                         </div>
                       )}
-                    </div>
+                    </motion.div>
                   </div>
 
                   <div className="space-y-3 w-full mb-8">
                     
-                    {/* Item Vitalício Exclusivo: Dono do Código */}
+                    {/* Item Vitalício */}
                     {isLifetime && (
-                      <div
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
                         className="bg-white/20 border border-white/30 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm overflow-hidden"
                       >
                         <CodeXml className="w-5 h-5 shrink-0 text-white" />
                         <span className="text-sm font-extrabold text-white">Você é dono do código-fonte</span>
-                      </div>
+                      </motion.div>
                     )}
 
-                    {/* Item 1 */}
+                    {/* Features List */}
                     <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
                       <Smartphone className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
                       <span className="text-sm font-bold">Site Mobile First Profissional</span>
                     </div>
                     
-                    {/* Item 2 - Fotos com IA (Dinâmico) */}
                     <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
                       <Sparkles className={`w-5 h-5 shrink-0 ${theme.iconColor}`} />
                       <span className="text-sm font-bold">
@@ -201,7 +189,6 @@ const SocialProof = () => {
                       </span>
                     </div>
                     
-                    {/* Item 3 - Dinâmico (Hospedagem) */}
                     <div className="bg-black/10 border border-white/10 p-4 rounded-xl flex items-center gap-3 w-full text-left backdrop-blur-sm">
                         {billingCycle === 'monthly' ? (
                           <>
@@ -244,7 +231,7 @@ const SocialProof = () => {
              </AnimatePresence>
           </div>
 
-          {/* Card 2: Suporte & Tech (Combined) */}
+          {/* Card 2: Suporte & Tech */}
           <motion.div 
             variants={fadeInUp}
             whileHover={{ y: -8, scale: 1.02 }}
@@ -285,7 +272,7 @@ const SocialProof = () => {
           </motion.div>
         </motion.div>
 
-        {/* --- GARANTIA PREMIUM (Translucida) --- */}
+        {/* --- GARANTIA --- */}
         <motion.div 
           variants={fadeInUp}
           initial="hidden"
@@ -294,28 +281,17 @@ const SocialProof = () => {
           className="flex justify-center items-center mt-20 pt-4"
         >
             <div className="relative group">
-                {/* Glow */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-[#AED3F2] via-white to-[#AED3F2] rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                
-                {/* Box Vidro Translúcido */}
                 <div className="
                   relative flex flex-col items-center justify-center gap-3 px-12 py-6 
                   bg-gradient-to-b from-white/40 to-white/10 backdrop-blur-md border border-white/40 
                   rounded-2xl shadow-[0_8px_32px_0_rgba(31,38,135,0.05)]
                 ">
-                    
-                    {/* Estrelas */}
                     <div className="flex gap-2">
                       {[1,2,3,4,5].map(i => (
-                        <Star 
-                          key={i} 
-                          className="w-8 h-8 text-amber-400 fill-current drop-shadow-md" 
-                          strokeWidth={1.5}
-                        />
+                        <Star key={i} className="w-8 h-8 text-amber-400 fill-current drop-shadow-md" strokeWidth={1.5} />
                       ))}
                     </div>
-
-                    {/* Texto Único */}
                     <p className="text-[#2E78A6] font-bold text-xl tracking-tight">
                       Satisfação Garantida
                     </p>

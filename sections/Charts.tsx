@@ -3,12 +3,11 @@ import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
 import { Smartphone, Search, ArrowUpRight, MousePointerClick, Users, BarChart3 } from 'lucide-react';
 import { fadeInUp, staggerContainer } from '../utils/animations';
 
-// OTIMIZAÇÃO: Contador que não causa Re-renders no React
+// OTIMIZAÇÃO: Contador de alta performance (sem re-renders)
 const Counter = ({ from, to, duration = 2, suffix = "", decimals = 0 }: { from: number; to: number; duration?: number; suffix?: string; decimals?: number }) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
   const isInView = useInView(nodeRef, { once: true, margin: "-50px" });
   
-  // Motion value puro (fora do ciclo de render do React)
   const motionValue = useMotionValue(from);
   const springValue = useSpring(motionValue, { damping: 50, stiffness: 100 });
 
@@ -44,12 +43,13 @@ const Charts = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-[#F2F7FC] via-[#E0EBF5] to-[#CEDDEB] relative overflow-hidden">
       
-      {/* Background simplificado para performance */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-80 pointer-events-none translate-x-1/3 -translate-y-1/4 will-change-transform" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#AED3F2]/30 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 translate-y-1/4 will-change-transform" />
+      {/* Background Otimizado (GPU) */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white rounded-full blur-[100px] opacity-80 pointer-events-none translate-x-1/3 -translate-y-1/4 transform-gpu will-change-transform" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#AED3F2]/30 rounded-full blur-[100px] pointer-events-none -translate-x-1/3 translate-y-1/4 transform-gpu will-change-transform" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
+        {/* Header */}
         <motion.div 
           variants={staggerContainer}
           initial="hidden"
@@ -62,7 +62,6 @@ const Charts = () => {
             Dados de Mercado
           </motion.div>
           
-          {/* Título Ajustado para Mobile: text-2xl para evitar quebra indesejada na segunda linha */}
           <motion.h2 variants={fadeInUp} className="text-2xl md:text-4xl font-extrabold text-[#2E78A6] mb-4 leading-tight">
             O impacto real de um <br/>
             site de <span className="text-[#6CC5D9]">alta performance</span>.
@@ -72,9 +71,10 @@ const Charts = () => {
           </motion.p>
         </motion.div>
 
+        {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
 
-          {/* WIDGET 1 */}
+          {/* WIDGET 1: Crescimento */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -132,7 +132,7 @@ const Charts = () => {
             </div>
           </motion.div>
 
-          {/* WIDGET 2 */}
+          {/* WIDGET 2: Mobile First (CORRIGIDO) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -187,7 +187,10 @@ const Charts = () => {
                </div>
             </div>
 
+            {/* FIXED: Alinhamento das estatísticas */}
             <div className="flex justify-between items-end relative z-10 mt-auto border-t border-white/10 pt-3">
+               
+               {/* Mobile */}
                <div className="flex flex-col items-center">
                   <div className="flex items-center gap-1 mb-0.5">
                     <div className="w-2 h-2 rounded-full bg-[#6CC5D9]" />
@@ -196,6 +199,7 @@ const Charts = () => {
                   <span className="text-xl font-extrabold leading-none text-white"><Counter from={0} to={82.1} decimals={1} suffix="%" /></span>
                </div>
 
+               {/* Desktop */}
                <div className="flex flex-col items-center">
                   <div className="flex items-center gap-1 mb-0.5">
                     <div className="w-2 h-2 rounded-full bg-white/30" />
@@ -204,15 +208,19 @@ const Charts = () => {
                   <span className="text-lg font-bold leading-none text-blue-100"><Counter from={0} to={17.6} decimals={1} suffix="%" /></span>
                </div>
 
-               <div className="flex flex-col items-end justify-end h-full pb-0.5">
-                  <span className="text-[10px] font-medium text-blue-200/80 uppercase tracking-wider text-right leading-tight">
-                    Usuários<br/>por Categoria
-                  </span>
+               {/* Tablet */}
+               <div className="flex flex-col items-center opacity-60">
+                  <div className="flex items-center gap-1 mb-0.5">
+                    <div className="w-2 h-2 rounded-full bg-white/10" />
+                    <span className="text-[10px] uppercase font-bold text-blue-200">Tablet</span>
+                  </div>
+                  <span className="text-lg font-bold leading-none text-blue-100">0.3%</span>
                </div>
+
             </div>
           </motion.div>
 
-          {/* WIDGET 3 */}
+          {/* WIDGET 3: SEO */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -267,7 +275,7 @@ const Charts = () => {
              </div>
           </motion.div>
 
-          {/* WIDGET 4 */}
+          {/* WIDGET 4: CTA */}
           <motion.div 
              initial={{ opacity: 0, scale: 0.95 }}
              whileInView={{ opacity: 1, scale: 1 }}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, ArrowUp, Mail, MessageCircle } from 'lucide-react';
+import { ArrowUp, Mail, MessageCircle } from 'lucide-react';
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -9,9 +9,9 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-b from-white to-[#E4EAF2] text-slate-600 pt-20 pb-10 border-t border-[#AED3F2] relative overflow-hidden">
       
-      {/* Background Decorative Elements */}
-      <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] bg-[#AED3F2]/20 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-[#2E78A6]/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Background Decorative Elements - OTIMIZAÇÃO: GPU */}
+      <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] bg-[#AED3F2]/20 rounded-full blur-[100px] pointer-events-none transform-gpu" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-[#2E78A6]/10 rounded-full blur-[120px] pointer-events-none transform-gpu" />
 
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         
@@ -20,10 +20,12 @@ const Footer = () => {
           {/* Coluna 1: Marca & Propósito */}
           <div className="space-y-6">
             <div className="flex items-center gap-2.5 cursor-pointer" onClick={scrollToTop}>
-              {/* Logo ClinicPage */}
+              {/* Logo ClinicPage - OTIMIZAÇÃO: Dimensões para evitar CLS */}
               <img 
                 src="https://i.ibb.co/sdKGmZR3/Odonto-Page-Logo.png" 
                 alt="ClinicPages Logo" 
+                width="28"
+                height="28"
                 className="h-7 w-auto object-contain mix-blend-multiply opacity-90"
               />
               <div className="text-2xl font-extrabold text-[#2E78A6] tracking-tight">
@@ -58,7 +60,6 @@ const Footer = () => {
                 </div>
                 <div>
                   <span className="block font-bold text-slate-800">WhatsApp Comercial</span>
-                  {/* Link atualizado */}
                   <a href="https://wa.link/kxfsjj" target="_blank" rel="noopener noreferrer" className="hover:text-[#6CC5D9] transition-colors">+351 936351006</a>
                 </div>
               </li>
@@ -74,7 +75,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Coluna 4: CTA Final (Substituindo Horário) */}
+          {/* Coluna 4: CTA Final */}
           <div className="bg-white border border-[#AED3F2] p-6 rounded-2xl shadow-lg relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-20 h-20 bg-[#6CC5D9]/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-150 duration-500"></div>
             

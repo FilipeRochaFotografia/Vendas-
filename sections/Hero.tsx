@@ -83,9 +83,18 @@ const Hero = () => {
               Pare de perder pacientes hoje
             </motion.div>
 
-            {/* --- IMAGEM MOBILE (ANIMADA) --- */}
+{/* --- IMAGEM MOBILE (ANIMAÇÃO SUAVE: SCALE + FADE) --- */}
             <motion.div 
-              variants={fadeInUp} // Adicionado Efeito de Entrada Suave
+              // AQUI: Personalizei a animação para ser mais lenta e ter efeito de zoom-in (scale)
+              variants={{
+                hidden: { opacity: 0, y: 50, scale: 0.9 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0, 
+                  scale: 1,
+                  transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } // Curva suave "Apple style"
+                }
+              }}
               className="relative w-full max-w-[400px] mx-auto -mt-10 lg:hidden flex flex-col items-center justify-end z-10"
             >
                {/* WRAPPER COM MÁSCARA */}
@@ -93,9 +102,9 @@ const Hero = () => {
                   
                   {/* 1. O PORTAL DE VIDRO (Fundo) */}
                   <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[90%] h-[100%] z-0 pointer-events-none">
-                      
                       {/* VIDRO LIMPO E LISO */}
                       <div className="w-full h-full rounded-t-[4rem] border-t border-x border-white/20 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-sm shadow-[inset_0_10px_20px_rgba(255,255,255,0.05)]">
+                        {/* Reflexo de Luz Superior */}
                         <div className="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
                       </div>
                   </div>
